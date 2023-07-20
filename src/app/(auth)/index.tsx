@@ -1,20 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Link } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 
-export default function App() {
+export default function Auth() {
   return (
-    <View style={styles.container}>
-      <Text>Auth!</Text>
-      <StatusBar style="auto" />
+    <View className="flex-1 bg-[#3F65A1] items-center justify-center">
+      <Text className="text-white text-2xl">Auth</Text>
+      <Link href="/(main)/home" asChild>
+        <Pressable className="items-center justify-center w-32 h-14 rounded-xl bg-sky-600">
+          <Text className="text-center text-white">Permuta!</Text>
+        </Pressable>
+      </Link>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#3F65A1',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
