@@ -1,15 +1,16 @@
 import React, { forwardRef } from "react";
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { twMerge } from "tailwind-merge";
 
 type FillButtonProps = {
   label: string;
 } & React.ComponentProps<typeof Pressable>;
 
-const FillButton = ({ label, ...props }: FillButtonProps) => {
+const FillButton = ({ label, ...props }: FillButtonProps, ref: any) => {
   return (
     <Pressable
       {...props}
+      ref={ref}
       className={twMerge(
         "w-full h-11 bg-permuta-primary items-center justify-center rounded-lg",
         props.className
@@ -25,4 +26,4 @@ const FillButton = ({ label, ...props }: FillButtonProps) => {
   );
 };
 
-export default forwardRef(FillButton);
+export default forwardRef<View, FillButtonProps>(FillButton);
