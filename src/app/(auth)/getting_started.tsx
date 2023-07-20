@@ -1,4 +1,4 @@
-import AuthHeader from "@/components/header/authHeader";
+import { AuthHeader } from "@/components/layout/header";
 import { Link } from "expo-router";
 import { Image, Pressable, Text, View } from "react-native";
 

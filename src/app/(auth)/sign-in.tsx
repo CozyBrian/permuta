@@ -1,5 +1,5 @@
 import FillButton from "@/components/buttons/FillButton";
-import AuthHeader from "@/components/header/authHeader";
+import { AuthHeader } from "@/components/layout/header";
 import { Link } from "expo-router";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import { Pressable, Text, TextInput, View } from "react-native";

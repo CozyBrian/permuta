@@ -71,7 +71,7 @@ const Dropdown = ({ placeholder, items, onChange }: DropdownProps) => {
             top: dropdownDimension.y + dropdownDimension.h + 12,
             left: dropdownDimension.x,
           }}
-          className="absolute min-h-[44px] max-h-[176px] bg-white border border-permuta-edge rounded-lg"
+          className="absolute min-h-[44px] max-h-[176px] bg-white border border-permuta-edge rounded-lg overflow-clip p-0.5"
         >
           <ScrollView className="w-full h-full">
             {items.map((item) => (
@@ -82,7 +82,7 @@ const Dropdown = ({ placeholder, items, onChange }: DropdownProps) => {
                   setSelectedItem(item);
                 }}
                 className={classNames(
-                  "w-full h-11 flex-row items-center justify-between px-4",
+                  "w-full h-11 flex-row items-center justify-between px-4 rounded-md",
                   SelectedItem?.value === item.value
                     ? "bg-[#F2F2F2]"
                     : "bg-white"

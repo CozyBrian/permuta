@@ -1,5 +1,5 @@
 import { FillButton } from "@/components/buttons";
-import AuthHeader from "@/components/header/authHeader";
+import { AuthHeader } from "@/components/layout/header";
 import Dropdown from "@/components/inputs/Dropdown";
 import { Link } from "expo-router";
 import { Edit2 } from "lucide-react-native";
