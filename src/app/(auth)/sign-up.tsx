@@ -42,7 +42,9 @@ export default function SignUp() {
               className="w-full h-11 border text-base border-permuta-edge rounded-lg px-4"
             />
             <View className="w-full pt-4">
-              <FillButton label="Sign Up" className="" />
+              <Link href="/(auth)/fill-your-profile" className="w-full" asChild>
+                <FillButton label="Sign Up" className="" />
+              </Link>
             </View>
             <Link href="/(auth)/sign-in" replace asChild>
               <Pressable className="pt-2">
