@@ -29,6 +29,10 @@ export default function Auth() {
       </View>
       <View className="absolute bottom-[15%] w-full px-10">
         <Link href="/(auth)/getting_started" asChild>
+          {/* <FillButton
+            label="Get Started"
+            className="w-full h-14 items-center justify-center bg-permuta-primaryDark rounded-2xl"
+          /> */}
           <Pressable className="w-full h-14 items-center justify-center bg-permuta-primaryDark rounded-2xl">
             <Text
               style={{ fontFamily: "Nunito_500Medium" }}
