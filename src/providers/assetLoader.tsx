@@ -3,6 +3,7 @@ import {
   Nunito_400Regular,
   Nunito_600SemiBold,
   Nunito_700Bold,
+  Nunito_500Medium,
   useFonts,
 } from "@expo-google-fonts/nunito";
 import * as SplashScreen from "expo-splash-screen";
@@ -10,6 +11,7 @@ import * as SplashScreen from "expo-splash-screen";
 const AssetLoader = ({ children }: { children: React.ReactNode }) => {
   let [fontsLoaded] = useFonts({
     Nunito_400Regular,
+    Nunito_500Medium,
     Nunito_600SemiBold,
     Nunito_700Bold,
   });
@@ -20,9 +22,9 @@ const AssetLoader = ({ children }: { children: React.ReactNode }) => {
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
 
   return <>{children}</>;
 };

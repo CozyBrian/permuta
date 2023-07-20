@@ -1,15 +1,44 @@
 import { Link } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+import { ImageBackground, Pressable, Text, View } from "react-native";
+
+const Triangle = require("@/assets/images/triangle.png");
 
 export default function Auth() {
   return (
-    <View className="flex-1 bg-[#3F65A1] items-center justify-center">
-      <Text className="text-white text-2xl">Auth</Text>
-      <Link href="/(main)/home" asChild>
-        <Pressable className="items-center justify-center w-32 h-14 rounded-xl bg-sky-600">
-          <Text className="text-center text-white">Permuta!</Text>
-        </Pressable>
-      </Link>
+    <View className="flex-1 bg-white">
+      <ImageBackground
+        source={Triangle}
+        className="flex-1 absolute -right-24 w-full h-full bg-contain"
+      ></ImageBackground>
+      <View className="absolute top-1/4 px-6">
+        <Text style={{ fontFamily: "Nunito_600SemiBold" }} className="text-5xl">
+          Welcome <Text className="text-[40px]">👋</Text>
+        </Text>
+        <Text
+          style={{ fontFamily: "Nunito_600SemiBold" }}
+          className="text-5xl pt-1"
+        >
+          to <Text className="text-permuta-primary">Permuta</Text>
+        </Text>
+        <Text
+          style={{ fontFamily: "Nunito_500Medium" }}
+          className="text-sm w-fit"
+        >
+          Seamlessly Buy, Sell, and Trade {"\n"}within your Hostel Network
+        </Text>
+      </View>
+      <View className="absolute bottom-[15%] w-full px-10">
+        <Link href="/(auth)/getting_started" asChild>
+          <Pressable className="w-full h-14 items-center justify-center bg-permuta-primaryDark rounded-full">
+            <Text
+              style={{ fontFamily: "Nunito_500Medium" }}
+              className="text-base text-white"
+            >
+              Get Started
+            </Text>
+          </Pressable>
+        </Link>
+      </View>
     </View>
   );
 }
