@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Pressable, Text } from "react-native";
 import { twMerge } from "tailwind-merge";
 
@@ -25,4 +25,4 @@ const FillButton = ({ label, ...props }: FillButtonProps) => {
   );
 };
 
-export default FillButton;
+export default forwardRef(FillButton);
