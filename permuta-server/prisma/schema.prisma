@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id String @id @default(uuid())
+  username String 
+  email String @unique
+  password String
+  full_name String
+  phone_number String
+  image_url String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  hostel_id String
+
+  items items[]
+
+  hostel hostels @relation(fields: [hostel_id], references: [id])
+}
+
+model items {
+  id String @id @default(uuid())
+  name String
+  description String
+  price Int
+  image_url String?
+  category_id String
+  user_id String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  condition condition
+
+  user users @relation(fields: [user_id], references: [id])
+  category category @relation(fields: [category_id], references: [id])
+}
+
+model category {
+  id String @id @default(uuid())
+  name String @unique
+
+  items items[]
+}
+
+model hostels {
+  id String @id @default(uuid())
+  name String
+
+  users users[]
+}
+
+enum condition {
+  NEW
+  SLIGHTLY_USED
+  USED
+}
