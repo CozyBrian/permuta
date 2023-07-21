@@ -1,6 +1,7 @@
 import React from "react";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Pressable, Text, View } from "react-native";
+import classNames from "classnames";
 
 const TabBar = ({
   state,
@@ -13,7 +14,7 @@ const TabBar = ({
       style={{ paddingBottom: insets.bottom }}
       className="absolute left-0 bottom-0 flex-row justify-center items-center w-full px-4"
     >
-      <View className="h-16 w-full flex-row bg-white shadow-md rounded-2xl p-1">
+      <View className="h-16 w-full flex-row bg-white shadow-md shadow-[#e4f2ff92] rounded-2xl py-1 -mx-1">
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const Label =
@@ -46,11 +47,23 @@ const TabBar = ({
               key={index}
               onPress={onPress}
               onLongPress={onLongPress}
-              className="flex-1 justify-center items-center bg-orange-300 rounded-xl"
+              className={classNames(
+                "flex-1 justify-center items-center mx-1 rounded-xl",
+                isFocused ? "bg-[#edf6fe] border border-[#b3dcff]" : "bg-white"
+              )}
             >
+              {options.tabBarIcon && (
+                <View className="flex-row justify-center items-center">
+                  {options.tabBarIcon({
+                    focused: isFocused,
+                    color: isFocused ? "#2B6FAF" : "#4A5567",
+                    size: 24,
+                  })}
+                </View>
+              )}
               <Text
                 className={`flex-row justify-center items-center ${
-                  isFocused ? "text-slate-900" : "text-slate-600"
+                  isFocused ? "text-permuta-primaryDark" : "text-slate-600"
                 }`}
               >
                 {Label}

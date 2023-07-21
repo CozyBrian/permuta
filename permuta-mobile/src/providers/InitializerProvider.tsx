@@ -17,10 +17,8 @@ const InitializerProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const auth = await SecureStore.getItemAsync(PERMUTA_AUTH);
         await SplashScreen.hideAsync();
-        console.log("auth", auth);
-
         // wait 30 seconds
-        await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
+        // await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
         if (auth) {
           const parsedAuth = JSON.parse(auth);
           dispatch(action.auth.setAuth(parsedAuth));
