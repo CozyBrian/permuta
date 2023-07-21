@@ -59,7 +59,7 @@ export const postAuthLogin = async (
     }
   } catch (error) {
     if (error instanceof ZodError) {
-      return res.status(400).send({ error });
+      return res.status(400).send(error);
     }
     return res.status(500).send({ error });
   }
@@ -104,7 +104,7 @@ export const PostAuthSignUp = async (
     return res.status(201).send(token);
   } catch (error) {
     if (error instanceof ZodError) {
-      return res.status(400).send({ error });
+      return res.status(400).send(error);
     }
     return res.status(500).send({ error });
   }

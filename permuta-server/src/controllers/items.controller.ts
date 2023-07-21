@@ -39,7 +39,7 @@ export const getAllItems = async (
     });
   } catch (error) {
     if (error instanceof ZodError) {
-      return res.status(400).send({ error });
+      return res.status(400).send(error);
     }
     return res.status(500).send({ error });
   }
@@ -79,7 +79,7 @@ export const getUserItems = async (
     });
   } catch (error) {
     if (error instanceof ZodError) {
-      return res.status(400).send({ error });
+      return res.status(400).send(error);
     }
     return res.status(500).send({ error });
   }
@@ -110,7 +110,7 @@ export const getItemDetails = async (
     return res.status(200).json(item);
   } catch (error) {
     if (error instanceof ZodError) {
-      return res.status(400).send({ error });
+      return res.status(400).send(error);
     }
     return res.status(500).send({ error });
   }
@@ -130,7 +130,7 @@ export const postItem = async (
     return res.status(201).json(item);
   } catch (error) {
     if (error instanceof ZodError) {
-      return res.status(400).send({ error });
+      return res.status(400).send(error);
     }
     return res.status(500).send({ error });
   }
@@ -159,7 +159,7 @@ export const patchItem = async (
     return res.status(200).json(item);
   } catch (error) {
     if (error instanceof ZodError) {
-      return res.status(400).send({ error });
+      return res.status(400).send(error);
     }
     return res.status(500).send({ error });
   }
@@ -185,7 +185,7 @@ export const deleteItemById = async (
     return res.status(204).send(deletedItem);
   } catch (error) {
     if (error instanceof ZodError) {
-      return res.status(400).send({ error });
+      return res.status(400).send(error);
     }
     return res.status(500).send({ error });
   }

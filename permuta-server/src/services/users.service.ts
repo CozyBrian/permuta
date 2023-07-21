@@ -10,7 +10,7 @@ export const createUser = async (user: IUserCreate) => {
       password: user.password,
       phone_number: user.phone_number,
       image_url: user.image_url,
-      year_of_study: user.year_of_study,
+      hostel_id: user.hostel_id,
     },
   });
 
@@ -28,7 +28,7 @@ export const updateSchema = async (user: IUserUpdate) => {
       email: user.email,
       phone_number: user.phone_number,
       image_url: user.image_url,
-      year_of_study: user.year_of_study,
+      hostel_id: user.hostel_id,
     },
   });
 

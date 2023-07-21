@@ -21,7 +21,6 @@ model users {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   hostel_id String?
-  year_of_study String
 
   items items[]
 

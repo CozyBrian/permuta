@@ -30,9 +30,7 @@ export const userSchema = z.object({
     })
     .min(3),
   image_url: z.string().nullish(),
-  year_of_study: z.string({
-    required_error: "Year of study is required",
-  }),
+  hostel_id: z.string().uuid(),
 });
 
 export const userCreateSchema = userSchema.omit({
