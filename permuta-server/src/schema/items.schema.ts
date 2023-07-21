@@ -42,6 +42,7 @@ export const getItemsQuerySchema = z.object({
   user_id: z.string().uuid().optional(),
   category_id: z.string().uuid().optional(),
   condition: z.nativeEnum(condition_enum).optional(),
+  search: z.string().optional(),
 });
 
 export const getItemsParamsSchema = z.object({

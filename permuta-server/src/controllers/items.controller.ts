@@ -57,7 +57,7 @@ export const getUserItems = async (
   const query = req.query;
 
   try {
-    const { limit, page, user_id, category_id, condition } =
+    const { limit, page, user_id, category_id, condition, search } =
       await getItemsQuerySchema.parseAsync(query);
 
     const items = await getManyItems(
@@ -69,6 +69,7 @@ export const getUserItems = async (
         user_id,
         category_id,
         condition,
+        name: search,
       },
     );
     return res.status(200).json({
