@@ -42,3 +42,18 @@ export const userCreateSchema = userSchema.omit({
 export const userUpdateSchema = userCreateSchema.partial().extend({
   id: z.string().uuid(),
 });
+
+export const userLoginSchema = z.object({
+  email: z
+    .string({
+      required_error: "Email is required",
+    })
+    .email({
+      message: "Invalid email",
+    }),
+  password: z
+    .string({
+      required_error: "Password is required",
+    })
+    .min(6),
+});
