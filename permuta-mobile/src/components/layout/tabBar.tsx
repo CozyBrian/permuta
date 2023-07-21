@@ -3,8 +3,6 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Text, View } from "react-native";
 
 const TabBar = ({ insets, state, navigation }: BottomTabBarProps) => {
-  console.log(state.routes);
-
   return (
     <View
       style={{ paddingBottom: insets.bottom }}

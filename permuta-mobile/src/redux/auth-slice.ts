@@ -4,12 +4,14 @@ import * as SecureStore from "expo-secure-store";
 
 type initialStateType = {
   isAuthenticated: boolean;
-  accessToken: null | string;
+  accessToken: string | null;
+  refreshToken: string | null;
 };
 
 const initialState: initialStateType = {
   isAuthenticated: true,
   accessToken: null,
+  refreshToken: null,
 };
 
 const authSlice = createSlice({
@@ -18,6 +20,7 @@ const authSlice = createSlice({
   reducers: {
     setAuth(state, action: PayloadAction<initialStateType>) {
       state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
       state.isAuthenticated = action.payload.isAuthenticated;
       SecureStore.setItemAsync(PERMUTA_AUTH, JSON.stringify(action.payload));
     },

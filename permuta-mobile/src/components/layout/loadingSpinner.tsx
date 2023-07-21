@@ -9,7 +9,12 @@ import Animated, {
   Easing,
 } from "react-native-reanimated";
 
-const LoadingSpinner = ({ radius = 16 }) => {
+const LoadingSpinner = ({
+  radius = 32,
+  stroke = 4,
+  primaryColor = "#5C9AD4",
+  secondaryColor = "#B0D2F1",
+}) => {
   const rotation = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -35,16 +40,25 @@ const LoadingSpinner = ({ radius = 16 }) => {
   }, []);
 
   return (
-    <View className="w-16 h-16 rounded-full">
+    <View
+      style={{
+        width: radius * 2,
+        height: radius * 2,
+      }}
+      className="rounded-full"
+    >
       <Animated.View
         style={[
           {
-            borderColor: "#5C9AD4",
-            borderBottomColor: "#B0D2F1",
+            width: radius * 2,
+            height: radius * 2,
+            borderWidth: stroke,
+            borderColor: primaryColor,
+            borderBottomColor: secondaryColor,
           },
           animatedStyles,
         ]}
-        className="w-14 h-14 rounded-full border-[6px]"
+        className="rounded-full"
       ></Animated.View>
     </View>
   );

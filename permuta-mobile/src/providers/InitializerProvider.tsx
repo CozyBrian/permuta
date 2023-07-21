@@ -18,7 +18,7 @@ const InitializerProvider = ({ children }: { children: React.ReactNode }) => {
         const auth = await SecureStore.getItemAsync(PERMUTA_AUTH);
         await SplashScreen.hideAsync();
         // wait 30 seconds
-        await new Promise((resolve) => setTimeout(resolve, 5 * 1000));
+        // await new Promise((resolve) => setTimeout(resolve, 5 * 1000));
         if (auth) {
           const parsedAuth = JSON.parse(auth);
           dispatch(action.auth.setAuth(parsedAuth));
@@ -43,10 +43,6 @@ const InitializerProvider = ({ children }: { children: React.ReactNode }) => {
     return <SplashLoader />;
   }
 
-  return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      {children}
-    </View>
-  );
+  return <View style={{ flex: 1 }}>{children}</View>;
 };
 export default InitializerProvider;

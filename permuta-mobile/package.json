@@ -23,6 +23,7 @@
     "lucide-react-native": "^0.262.0",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
+    "react-hook-form": "^7.45.2",
     "react-native": "0.72.3",
     "react-native-click-outside": "^0.1.0",
     "react-native-dotenv": "^3.4.9",

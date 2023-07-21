@@ -1,12 +1,17 @@
 import React, { forwardRef } from "react";
 import { Pressable, Text, View } from "react-native";
 import { twMerge } from "tailwind-merge";
+import LoadingSpinner from "../layout/loadingSpinner";
 
 type FillButtonProps = {
   label: string;
+  isLoading?: boolean;
 } & React.ComponentProps<typeof Pressable>;
 
-const FillButton = ({ label, ...props }: FillButtonProps, ref: any) => {
+const FillButton = (
+  { label, isLoading = false, ...props }: FillButtonProps,
+  ref: any
+) => {
   return (
     <Pressable
       {...props}
@@ -16,12 +21,21 @@ const FillButton = ({ label, ...props }: FillButtonProps, ref: any) => {
         props.className
       )}
     >
-      <Text
-        style={{ fontFamily: "Nunito_600SemiBold" }}
-        className="text-white text-base"
-      >
-        {label}
-      </Text>
+      {isLoading ? (
+        <LoadingSpinner
+          radius={12}
+          stroke={3}
+          primaryColor="#fff"
+          secondaryColor="#ffffff88"
+        />
+      ) : (
+        <Text
+          style={{ fontFamily: "Nunito_600SemiBold" }}
+          className="text-white text-base"
+        >
+          {label}
+        </Text>
+      )}
     </Pressable>
   );
 };
