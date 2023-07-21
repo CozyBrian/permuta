@@ -14,18 +14,23 @@ declare global {
   }
 }
 
-const WhichUser = (req: Request, res: Response, next: NextFunction) => {
+const deserializeUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
   if (token == null) return res.sendStatus(401);
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (err, user) => {
-    if (err) return res.sendStatus(403);
-
+  try {
+    const user = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!);
     req.user = user as IUserPayload;
-    next();
-  });
+    return next();
+  } catch (error) {
+    return res.sendStatus(403);
+  }
 };
 
-export default WhichUser;
+export default deserializeUser;
