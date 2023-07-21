@@ -1,11 +1,47 @@
 import { FillButton } from "@/components/buttons";
 import { AuthHeader } from "@/components/layout/header";
 import Dropdown from "@/components/inputs/Dropdown";
-import { Link } from "expo-router";
 import { Edit2 } from "lucide-react-native";
 import { TextInput, View } from "react-native";
+import { useForm, Controller } from "react-hook-form";
+import { IRegisterPayload } from "@/types";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { action } from "@/redux";
+import classNames from "classnames";
+import { userRegister } from "@/services/permuta";
 
 export default function FillYourProfile() {
+  const { registerData } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IRegisterPayload>({
+    defaultValues: registerData,
+  });
+
+  const onSubmit = async (data: IRegisterPayload) => {
+    try {
+      setIsLoading(true);
+      const { data: res } = await userRegister(data);
+      return dispatch(
+        action.auth.setAuth({
+          accessToken: res.accessToken,
+          refreshToken: res.refreshToken,
+          isAuthenticated: true,
+        })
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <View className="flex-1 bg-white">
       <AuthHeader title="Fill Your Profile" />
@@ -18,25 +54,91 @@ export default function FillYourProfile() {
             </View>
           </View>
           <View className="w-full gap-y-3">
-            <TextInput
-              placeholder="Full Name"
-              placeholderTextColor={"#667085"}
-              className="w-full h-11 border border-permuta-edge rounded-lg px-4"
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  placeholder="Full Name"
+                  placeholderTextColor={"#667085"}
+                  autoCapitalize="none"
+                  className={classNames(
+                    "w-full h-11 border  rounded-lg px-4 mt-[14px]",
+                    errors.full_name ? "border-red-500" : "border-permuta-edge"
+                  )}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="full_name"
             />
-            <TextInput
-              placeholder="Username"
-              placeholderTextColor={"#667085"}
-              className="w-full h-11 border border-permuta-edge rounded-lg px-4"
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  placeholder="Username"
+                  placeholderTextColor={"#667085"}
+                  autoCapitalize="none"
+                  className={classNames(
+                    "w-full h-11 border  rounded-lg px-4 mt-[14px]",
+                    errors.username ? "border-red-500" : "border-permuta-edge"
+                  )}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="username"
             />
-            <TextInput
-              placeholder="Email"
-              placeholderTextColor={"#667085"}
-              className="w-full h-11 border border-permuta-edge rounded-lg px-4"
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  placeholder="Email"
+                  placeholderTextColor={"#667085"}
+                  autoCapitalize="none"
+                  className={classNames(
+                    "w-full h-11 border  rounded-lg px-4 mt-[14px]",
+                    errors.email ? "border-red-500" : "border-permuta-edge"
+                  )}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="email"
             />
-            <TextInput
-              placeholder="Phone"
-              placeholderTextColor={"#667085"}
-              className="w-full h-11 border border-permuta-edge rounded-lg px-4"
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  placeholder="Phone"
+                  placeholderTextColor={"#667085"}
+                  autoCapitalize="none"
+                  className={classNames(
+                    "w-full h-11 border  rounded-lg px-4 mt-[14px]",
+                    errors.phone_number
+                      ? "border-red-500"
+                      : "border-permuta-edge"
+                  )}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="phone_number"
             />
             <View>
               <Dropdown
@@ -44,27 +146,26 @@ export default function FillYourProfile() {
                 items={[
                   {
                     label: "Male",
-                    value: "m",
+                    value: "MALE",
                   },
                   {
                     label: "Female",
-                    value: "f",
+                    value: "FEMALE",
                   },
                   {
                     label: "Other",
-                    value: "o",
+                    value: "OTHER",
                   },
                 ]}
               />
             </View>
           </View>
-          <Link
-            href="/(auth)/fill-your-profile-2"
+          <FillButton
             className="absolute bottom-10"
-            asChild
-          >
-            <FillButton label="Next" />
-          </Link>
+            onPress={handleSubmit(onSubmit)}
+            label="Complete"
+            isLoading={isLoading}
+          />
         </View>
       </View>
     </View>

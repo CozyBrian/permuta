@@ -28,7 +28,10 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuth(state, action: PayloadAction<initialStateType>) {
+    setAuth(
+      state,
+      action: PayloadAction<Omit<initialStateType, "registerData">>
+    ) {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.isAuthenticated = action.payload.isAuthenticated;
@@ -40,7 +43,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       SecureStore.deleteItemAsync(PERMUTA_AUTH);
     },
-    setRegisterData(state, action: PayloadAction<IRegisterPayload>) {
+    setRegisterData(state, action: PayloadAction<Partial<IRegisterPayload>>) {
       state.registerData = { ...state.registerData, ...action.payload };
     },
     setAccessToken(state, action: PayloadAction<string | null>) {

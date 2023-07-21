@@ -30,7 +30,7 @@ export const userSchema = z.object({
     })
     .min(3),
   image_url: z.string().nullish(),
-  hostel_id: z.string().uuid(),
+  hostel_id: z.string().uuid().optional(),
 });
 
 export const userCreateSchema = userSchema.omit({

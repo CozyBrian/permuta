@@ -8,5 +8,5 @@ export const userLogin = (loginPayload: ILoginPayload) => {
 };
 
 export const userRegister = (registerPayload: IRegisterPayload) => {
-  return axios.post<IAuthResponse>("/v1/auth/register", registerPayload);
+  return axios.post<IAuthResponse>("/v1/auth/signup", registerPayload);
 };
