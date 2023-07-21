@@ -1,20 +1,20 @@
+import { FillButton } from "@/components/buttons";
+import { useAppDispatch } from "@/hooks";
+import { action } from "@/redux";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 export default function Home() {
+  const dispatch = useAppDispatch();
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-permuta-background items-center justify-center">
+      <StatusBar />
       <Text>Permuta! huh</Text>
-      <StatusBar style="auto" />
+      <FillButton
+        onPress={() => dispatch(action.auth.Logout())}
+        className="w-[200px]"
+        label="Logout"
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#5D92E3",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

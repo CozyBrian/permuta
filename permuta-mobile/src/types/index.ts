@@ -15,5 +15,5 @@ export type IRegisterPayload = {
   email: string;
   password: string;
   phone_number: string;
-  image_url: string;
+  image_url: string | null;
 };

@@ -8,6 +8,7 @@ module.exports = {
           primary: "#5C9AD4",
           primaryDark: "#2B6FAF",
           edge: "#D0D5DD",
+          background: "#F8F9F9",
         },
       },
     },
