@@ -20,11 +20,12 @@ model users {
   image_url String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  hostel_id String
+  hostel_id String?
+  year_of_study String
 
   items items[]
 
-  hostel hostels @relation(fields: [hostel_id], references: [id])
+  hostel hostels? @relation(fields: [hostel_id], references: [id])
 }
 
 model items {
