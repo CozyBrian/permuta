@@ -1,6 +1,6 @@
-require('dotenv').config();
 import http from "http";
 import app from "./app";
+require("dotenv").config();
 
 const PORT = process.env.PORT || 3001;
 

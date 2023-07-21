@@ -15,8 +15,8 @@ declare global {
 }
 
 const WhichUser = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
   if (token == null) return res.sendStatus(401);
 
@@ -26,6 +26,6 @@ const WhichUser = (req: Request, res: Response, next: NextFunction) => {
     req.user = user as IUserPayload;
     next();
   });
-}
+};
 
 export default WhichUser;
