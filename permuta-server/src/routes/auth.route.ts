@@ -9,5 +9,5 @@ const authRouter = express.Router();
 
 authRouter.post("/login", postAuthLogin);
 authRouter.post("/signup", PostAuthSignUp);
-authRouter.post("/refresh", PostAuthRefresh);
+authRouter.get("/refresh", PostAuthRefresh);
 export default authRouter;
