@@ -15,6 +15,25 @@ export const getManyItems = async (
   return await Prisma.items.findMany({
     skip: (page - 1) * limit,
     take: limit,
+    select: {
+      id: true,
+      name: true,
+      price: true,
+      image_url: true,
+      seller: {
+        select: {
+          username: true,
+          hostel: {
+            select: { name: true },
+          },
+        },
+      },
+      auctions: {
+        select: {
+          id: true,
+        },
+      },
+    },
     orderBy: {
       created_at: "desc",
     },
@@ -22,10 +41,31 @@ export const getManyItems = async (
   });
 };
 
+export const getTotalItemCount = async () => {
+  return await Prisma.items.count();
+};
+
 export const getOneItem = async (id: string) => {
   return await Prisma.items.findUnique({
     where: {
       id,
+    },
+
+    include: {
+      category: {
+        select: {
+          name: true,
+        },
+      },
+      seller: {
+        select: {
+          username: true,
+          hostel: {
+            select: { name: true },
+          },
+        },
+      },
+      auctions: true,
     },
   });
 };
