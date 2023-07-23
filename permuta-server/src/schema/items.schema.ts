@@ -1,4 +1,7 @@
-import { condition as condition_enum } from "@prisma/client";
+import {
+  condition as condition_enum,
+  item_status as item_status_enum,
+} from "@prisma/client";
 import { z } from "zod";
 
 export const itemsSchema = z.object({
@@ -21,7 +24,10 @@ export const itemsSchema = z.object({
       required_error: "Seller id is required",
     })
     .uuid(),
-  condition: z.any(),
+  condition: z.nativeEnum(condition_enum, {
+    required_error: "Condition is required",
+  }),
+  status: z.nativeEnum(item_status_enum),
   created_at: z.date(),
   updated_at: z.date(),
 });

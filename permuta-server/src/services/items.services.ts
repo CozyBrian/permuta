@@ -33,13 +33,7 @@ export const getOneItem = async (id: string) => {
 export const createItem = async (data: IItemCreate) => {
   return await Prisma.items.create({
     data: {
-      name: data.name,
-      description: data.description,
-      price: data.price,
-      image_url: data.image_url,
-      category_id: data.category_id,
-      seller_id: data.seller_id,
-      condition: data.condition,
+      ...data,
     },
   });
 };
