@@ -11,6 +11,7 @@ const server = http.createServer(app);
 
 async function startServer() {
   server.listen(PORT, () => {
+    console.log(`${"-".repeat(16)}PERMUTA SERVER${"-".repeat(16)}`);
     console.log(`Listening on port ${PORT}`);
   });
 }
