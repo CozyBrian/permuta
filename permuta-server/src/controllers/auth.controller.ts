@@ -5,9 +5,14 @@ import {
   createUser,
   getUserByEmail,
   isUserExists,
+  isUsernameExists,
 } from "../services/users.service";
 import { IUserCreate, IUserLogin } from "../types";
-import { userCreateSchema, userLoginSchema } from "../schema/users.schema";
+import {
+  getUsernameQuerySchema,
+  userCreateSchema,
+  userLoginSchema,
+} from "../schema/users.schema";
 import { ZodError } from "zod";
 
 type IUserPayload = {
@@ -127,5 +132,21 @@ export const PostAuthRefresh = async (req: Request, res: Response) => {
     return res.status(200).send({ accessToken, expiresIn: now.toISOString() });
   } catch (error) {
     return res.status(403).send({ error });
+  }
+};
+
+export const getUsernameExistStatus = async (req: Request, res: Response) => {
+  const query = req.query;
+  try {
+    const { username } = await getUsernameQuerySchema.parseAsync(query);
+
+    const UsernameExists = await isUsernameExists(username);
+
+    return res.status(200).send({ exists: UsernameExists });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).send(error);
+    }
+    return res.status(500).send({ error });
   }
 };

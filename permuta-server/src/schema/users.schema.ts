@@ -71,3 +71,7 @@ export const getUserDetailsQuerySchema = z.object({
   items: z.boolean().or(z.string()).pipe(z.coerce.boolean()).optional(),
   hostel: z.boolean().or(z.string()).pipe(z.coerce.boolean()).optional(),
 });
+
+export const getUsernameQuerySchema = z.object({
+  username: z.string().min(3),
+});

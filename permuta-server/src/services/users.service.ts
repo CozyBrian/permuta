@@ -103,3 +103,14 @@ export const isUserExists = async (user: { id?: string; email?: string }) => {
     },
   }));
 };
+
+export const isUsernameExists = async (username: string) => {
+  return !!(await Prisma.users.findUnique({
+    where: {
+      username,
+    },
+    select: {
+      id: true,
+    },
+  }));
+};
