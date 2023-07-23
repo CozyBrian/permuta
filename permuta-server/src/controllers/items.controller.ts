@@ -11,6 +11,7 @@ import {
   deleteItem,
   getManyItems,
   getOneItem,
+  getTotalItemCount,
   isItemExists,
   updateItem,
 } from "../services/items.services";
@@ -40,14 +41,27 @@ export const getAllItems = async (
         seller_id: user_id,
         category_id,
         condition,
-        name: search,
+        name: { contains: search, mode: "insensitive" },
       },
     );
-    return res.status(200).json({
+
+    const total = await getTotalItemCount();
+    const totalPages = Math.ceil(total / limit);
+
+    const nextPage = page + 1 > totalPages ? null : page + 1;
+    const prevPage = page - 1 < 1 ? null : page - 1;
+
+    const Res = {
       items,
       limit,
       page,
-    });
+      total,
+      totalPages,
+      nextPage,
+      prevPage,
+    };
+
+    return res.status(200).json(Res);
   } catch (error) {
     if (error instanceof ZodError) {
       return res.status(400).send(error);

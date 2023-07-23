@@ -33,7 +33,7 @@ export const getHostels = async (
         page,
       },
       {
-        name: search,
+        name: { contains: search, mode: "insensitive" },
       },
     );
 

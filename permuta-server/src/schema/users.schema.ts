@@ -61,8 +61,8 @@ export const getUsersParamsSchema = z.object({
 });
 
 export const getUsersQuerySchema = z.object({
-  limit: z.number().int().min(1).default(10),
-  page: z.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).default(10),
+  page: z.coerce.number().int().min(1).default(1),
   hostel_id: z.string().uuid().optional(),
   search: z.string().optional(),
 });

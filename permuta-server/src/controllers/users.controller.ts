@@ -33,7 +33,7 @@ export const getUsers = async (
         page,
       },
       {
-        username: search,
+        username: { contains: search, mode: "insensitive" },
         hostel_id,
       },
     );

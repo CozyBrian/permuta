@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Gaming Laptop",
+    "description": "A high-performance gaming laptop, perfect for gaming enthusiasts.",
+    "price": 800,
+    "image_url": null,
+    "category_id": "c8fc43b0-bbaf-4978-b39e-1ebfc7d3493c",
+    "seller_id": "eab3a26d-798d-408c-835b-9156f40f603a",
+    "condition": "USED",
+    "status": "INSTOCK"
+  },
+  {
+    "name": "Calculus Textbook",
+    "description": "A comprehensive calculus textbook for university students.",
+    "price": 40,
+    "image_url": null,
+    "category_id": "b2f4e571-2ace-45e0-8c4b-b5e1855f765d",
+    "seller_id": "eab3a26d-798d-408c-835b-9156f40f603a",
+    "condition": "SLIGHTLY_USED",
+    "status": "INSTOCK"
+  },
+  {
+    "name": "Study Desk",
+    "description": "A sturdy study desk with ample storage space for books and essentials.",
+    "price": 60,
+    "image_url": null,
+    "category_id": "a8d57e9e-ca0b-43b7-a4a0-b71f4f08a729",
+    "seller_id": "eab3a26d-798d-408c-835b-9156f40f603a",
+    "condition": "NEW",
+    "status": "INSTOCK"
+  },
+  {
+    "name": "Casual Hoodie",
+    "description": "A comfortable hoodie, perfect for a casual look on campus.",
+    "price": 25,
+    "image_url": null,
+    "category_id": "a4a26f36-c7bb-4d66-a4f4-f50bb50122bb",
+    "seller_id": "eab3a26d-798d-408c-835b-9156f40f603a",
+    "condition": "USED",
+    "status": "INSTOCK"
+  },
+  {
+    "name": "Mini Fridge",
+    "description": "A compact mini fridge for storing snacks and beverages.",
+    "price": 60,
+    "image_url": null,
+    "category_id": "7b148dd3-35f5-4aec-888c-b973446c09a1",
+    "seller_id": "eab3a26d-798d-408c-835b-9156f40f603a",
+    "condition": "NEW",
+    "status": "INSTOCK"
+  }
+]

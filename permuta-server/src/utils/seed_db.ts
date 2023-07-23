@@ -1,6 +1,8 @@
 import Prisma from "../services/prisma";
 import HostelData from "../data/hostels_final.json";
 import CategoryData from "../data/category_seed.json";
+import ItemsData from "../data/items_seed.json";
+import { itemsCreateSchema } from "../schema/items.schema";
 
 export async function addHostels() {
   console.log("Adding hostels...");
@@ -36,4 +38,22 @@ export async function addCategories() {
     }
   }
   console.log("Done adding categories");
+}
+
+export async function addItems() {
+  console.log("Adding items...");
+  for (const tempitem of ItemsData) {
+    try {
+      const item = await itemsCreateSchema.parseAsync(tempitem);
+      const itm = await Prisma.items.create({
+        data: {
+          ...item,
+        },
+      });
+      console.log(`Added item ${itm.name} with id: ${itm.id}`);
+    } catch (error) {
+      console.log("Error adding item");
+    }
+  }
+  console.log("Done adding items");
 }
