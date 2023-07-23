@@ -70,7 +70,7 @@ export default function SignIn() {
                   placeholderTextColor={"#667085"}
                   autoCapitalize="none"
                   className={classNames(
-                    "w-full h-11 border  rounded-lg px-4 my-[14px]",
+                    "w-full h-11 border text-base leading-5 rounded-lg px-4 my-[14px]",
                     errors.email ? "border-red-500" : "border-permuta-edge"
                   )}
                   onBlur={onBlur}
@@ -91,7 +91,7 @@ export default function SignIn() {
                   placeholderTextColor={"#667085"}
                   secureTextEntry={true}
                   className={classNames(
-                    "w-full h-11 border  rounded-lg px-4",
+                    "w-full h-11 border text-base leading-5 rounded-lg px-4",
                     errors.password ? "border-red-500" : "border-permuta-edge"
                   )}
                   onBlur={onBlur}

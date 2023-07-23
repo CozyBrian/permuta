@@ -1300,6 +1300,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.44.0.tgz#961a5903c74139390478bdc808bcde3fc45ab7af"
   integrity sha512-Ag+9YM4ocKQx9AarydN0KY2j0ErMHNIocPDrVo8zAE44xLTjEtz81OdR68/cydGtk6m6jDb5Za3r2useMzYmSw==
 
+"@expo-google-fonts/nunito-sans@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/nunito-sans/-/nunito-sans-0.2.3.tgz#491d915531a41aea2c93cdb3f53893c3a60af575"
+  integrity sha512-8p1ZVigs6rCArGzQtLeaJ70wZI7hc32IyLnPQC6Ul1HW8Ok6qn+Q5tCpPz3/0k+LcMU6dyAmNj5fVzDSTho9aA==
+
 "@expo-google-fonts/nunito@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/nunito/-/nunito-0.2.3.tgz#d226372ab582bc285873a61382d619c17abd5c19"

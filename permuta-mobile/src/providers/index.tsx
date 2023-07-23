@@ -9,6 +9,7 @@ import {
   Nunito_500Medium,
   useFonts,
 } from "@expo-google-fonts/nunito";
+import { NunitoSans_700Bold } from "@expo-google-fonts/nunito-sans";
 import * as SplashScreen from "expo-splash-screen";
 import InitializerProvider from "./InitializerProvider";
 
@@ -18,6 +19,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     Nunito_500Medium,
     Nunito_600SemiBold,
     Nunito_700Bold,
+    NunitoSans_700Bold,
   });
 
   useCallback(async () => {

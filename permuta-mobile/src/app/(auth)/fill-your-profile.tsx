@@ -65,7 +65,7 @@ export default function FillYourProfile() {
                   placeholderTextColor={"#667085"}
                   autoCapitalize="none"
                   className={classNames(
-                    "w-full h-11 border  rounded-lg px-4 mt-[14px]",
+                    "w-full h-11 border text-base leading-5 rounded-lg px-4 mt-[14px]",
                     errors.full_name ? "border-red-500" : "border-permuta-edge"
                   )}
                   onBlur={onBlur}
@@ -86,7 +86,7 @@ export default function FillYourProfile() {
                   placeholderTextColor={"#667085"}
                   autoCapitalize="none"
                   className={classNames(
-                    "w-full h-11 border  rounded-lg px-4 mt-[14px]",
+                    "w-full h-11 border text-base leading-5 rounded-lg px-4 mt-[14px]",
                     errors.username ? "border-red-500" : "border-permuta-edge"
                   )}
                   onBlur={onBlur}
@@ -107,7 +107,7 @@ export default function FillYourProfile() {
                   placeholderTextColor={"#667085"}
                   autoCapitalize="none"
                   className={classNames(
-                    "w-full h-11 border  rounded-lg px-4 mt-[14px]",
+                    "w-full h-11 border text-base leading-5 rounded-lg px-4 mt-[14px]",
                     errors.email ? "border-red-500" : "border-permuta-edge"
                   )}
                   onBlur={onBlur}
@@ -128,7 +128,7 @@ export default function FillYourProfile() {
                   placeholderTextColor={"#667085"}
                   autoCapitalize="none"
                   className={classNames(
-                    "w-full h-11 border  rounded-lg px-4 mt-[14px]",
+                    "w-full h-11 border text-base leading-5 rounded-lg px-4 mt-[14px]",
                     errors.phone_number
                       ? "border-red-500"
                       : "border-permuta-edge"
