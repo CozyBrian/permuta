@@ -9,9 +9,9 @@ import CategoryRouter from "./category.route";
 const v1_api = express.Router();
 
 v1_api.use("/auth", authRouter);
+v1_api.use("/hostels", HostelsRouter);
 v1_api.use("/users", deserializeUser, usersRouter);
 v1_api.use("/items", deserializeUser, itemsRouter);
-v1_api.use("/hostels", HostelsRouter);
-v1_api.use("/categories", CategoryRouter);
+v1_api.use("/categories", deserializeUser, CategoryRouter);
 
 export default v1_api;

@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-export const getHostelsQuery = z.object({
+export const getHostelsQuerySchema = z.object({
   limit: z.number().optional(),
   page: z.number().optional(),
   search: z.string().optional(),
 });
 
-export const getHostelsParams = z.object({
+export const getHostelsParamsSchema = z.object({
   id: z.string().uuid(),
 });

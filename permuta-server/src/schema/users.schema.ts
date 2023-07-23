@@ -55,3 +55,19 @@ export const userLoginSchema = z.object({
     })
     .min(6),
 });
+
+export const getUsersParamsSchema = z.object({
+  id: z.string().uuid(),
+});
+
+export const getUsersQuerySchema = z.object({
+  limit: z.number().int().min(1).default(10),
+  page: z.number().int().min(1).default(1),
+  hostel_id: z.string().uuid().optional(),
+  search: z.string().optional(),
+});
+
+export const getUserDetailsQuerySchema = z.object({
+  items: z.boolean().or(z.string()).pipe(z.coerce.boolean()).optional(),
+  hostel: z.boolean().or(z.string()).pipe(z.coerce.boolean()).optional(),
+});

@@ -1,5 +1,38 @@
 import { IUserCreate, IUserUpdate } from "../types";
 import Prisma from "./prisma";
+import { Prisma as PrismaClient } from "@prisma/client";
+
+export const getManyUsers = async (
+  {
+    limit = 10,
+    page = 1,
+  }: {
+    limit?: number;
+    page?: number;
+  },
+  filter?: PrismaClient.usersFindManyArgs["where"],
+) => {
+  return await Prisma.users.findMany({
+    skip: (page - 1) * limit,
+    take: limit,
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      full_name: true,
+      gender: true,
+      phone_number: true,
+      hostel_id: true,
+      image_url: true,
+      created_at: true,
+      updated_at: true,
+    },
+    orderBy: {
+      full_name: "asc",
+    },
+    where: filter,
+  });
+};
 
 export const createUser = async (user: IUserCreate) => {
   const newUser = await Prisma.users.create({
@@ -35,11 +68,15 @@ export const updateSchema = async (user: IUserUpdate) => {
   return updatedUser;
 };
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (
+  id: string,
+  include: PrismaClient.usersFindUniqueArgs["include"],
+) => {
   const user = await Prisma.users.findUnique({
     where: {
       id,
     },
+    include: include,
   });
 
   return user;

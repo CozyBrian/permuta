@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { IHostelsParams, IHostelsQuery } from "../types";
-import { getHostelsParams, getHostelsQuery } from "../schema/hostels.schema";
+import {
+  getHostelsParamsSchema,
+  getHostelsQuerySchema,
+} from "../schema/hostels.schema";
 import {
   getManyHostels,
   getOneHostel,
@@ -20,7 +23,9 @@ export const getHostels = async (
   const query = req.query;
 
   try {
-    const { limit, page, search } = await getHostelsQuery.parseAsync(query);
+    const { limit, page, search } = await getHostelsQuerySchema.parseAsync(
+      query,
+    );
 
     const hostels = await getManyHostels(
       {
@@ -57,7 +62,7 @@ export const getHostelDetails = async (
   const params = req.params;
 
   try {
-    const { id } = await getHostelsParams.parseAsync(params);
+    const { id } = await getHostelsParamsSchema.parseAsync(params);
 
     if (!(await isHostelExists(id))) {
       return res.status(404).send({
