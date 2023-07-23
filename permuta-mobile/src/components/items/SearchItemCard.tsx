@@ -1,11 +1,15 @@
 import { FONT } from "@/assets/font";
 import { SCREEN_WIDTH } from "@/constants";
+import { router } from "expo-router";
 import { Heart } from "lucide-react-native";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 
 const SearchItemCard = () => {
   return (
-    <View className="flex-1 flex-row mx-2 my-2 h-20">
+    <Pressable
+      onPress={() => router.push("/(main)/search/item/3")}
+      className="flex-1 flex-row mx-2 my-2 h-20"
+    >
       <View className="h-full mr-[14px] aspect-square bg-permuta-primary rounded-2xl"></View>
       <View
         style={{
@@ -34,7 +38,7 @@ const SearchItemCard = () => {
           <Heart size={24} color="#7D7D7D" />
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
