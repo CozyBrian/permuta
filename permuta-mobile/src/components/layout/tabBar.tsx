@@ -48,8 +48,10 @@ const TabBar = ({
               onPress={onPress}
               onLongPress={onLongPress}
               className={classNames(
-                "flex-1 justify-center items-center mx-1 rounded-xl",
-                isFocused ? "bg-[#edf6fe] border border-[#b3dcff]" : "bg-white"
+                "flex-1 justify-center items-center mx-1 border rounded-xl",
+                isFocused
+                  ? "bg-[#edf6fe] border-[#b3dcff]"
+                  : "bg-white border-white"
               )}
             >
               {options.tabBarIcon && (

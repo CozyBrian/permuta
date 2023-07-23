@@ -1,12 +1,21 @@
+import classNames from "classnames";
 import { Search } from "lucide-react-native";
-import React from "react";
+import React, { useState } from "react";
 import { TextInput, View } from "react-native";
 
 const SearchInput = () => {
+  const [isFocused, setIsFocused] = useState(false);
   return (
-    <View className="w-full h-11 flex-row items-center px-[14px] mb-[18px] bg-white rounded-2xl">
+    <View
+      className={classNames(
+        "w-full h-11 flex-row items-center px-[14px] mb-[18px] border bg-white rounded-2xl",
+        isFocused ? "border-permuta-edge" : "border-white"
+      )}
+    >
       <Search color="#000" size={20} />
       <TextInput
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         placeholder="Search"
         placeholderTextColor="#000"
         allowFontScaling

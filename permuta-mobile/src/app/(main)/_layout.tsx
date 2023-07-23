@@ -1,6 +1,6 @@
 import TabBar from "@/components/layout/tabBar";
 import { Tabs } from "expo-router";
-import { Home, Settings } from "lucide-react-native";
+import { Home, Search, Settings } from "lucide-react-native";
 
 export default function MainLayout() {
   return (
@@ -13,6 +13,14 @@ export default function MainLayout() {
           tabBarIcon: ({ focused, size, color }) => (
             <Home size={size} color={color} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          href: "/(main)/search",
+          title: "Search",
+          tabBarIcon: ({ size, color }) => <Search size={size} color={color} />,
         }}
       />
       <Tabs.Screen
