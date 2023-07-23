@@ -1,5 +1,5 @@
 import { FillButton } from "@/components/buttons";
-import { AuthHeader } from "@/components/layout/header";
+import { HeaderWithBack } from "@/components/layout/header";
 import Dropdown from "@/components/inputs/Dropdown";
 import { Link } from "expo-router";
 import { View } from "react-native";
@@ -7,7 +7,7 @@ import { View } from "react-native";
 export default function FillYourProfile2() {
   return (
     <View className="flex-1 bg-white">
-      <AuthHeader title="Fill Your Profile" />
+      <HeaderWithBack title="Fill Your Profile" />
       <View className="flex-1 p-4">
         <View className="flex-1 flex-col items-center">
           <View className="w-full gap-y-3">

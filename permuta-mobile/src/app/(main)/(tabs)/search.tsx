@@ -1,4 +1,4 @@
-import { AuthHeader } from "@/components/layout/header";
+import { HeaderWithBack } from "@/components/layout/header";
 import { View } from "react-native";
 import SearchInput from "@/components/inputs/SearchInput";
 import { FlatList } from "react-native-gesture-handler";
@@ -10,7 +10,7 @@ export default function Search() {
   const insets = useSafeAreaInsets();
   return (
     <View className="flex-1 bg-permuta-background">
-      <AuthHeader title="Search" />
+      <HeaderWithBack title="Search" />
       <View className="flex-1 w-full p-4 pb-0">
         <FlatList
           className="h-full -mx-2 -my-2"

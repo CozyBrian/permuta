@@ -12,6 +12,7 @@
     "@expo-google-fonts/nunito": "^0.2.3",
     "@expo-google-fonts/nunito-sans": "^0.2.3",
     "@reduxjs/toolkit": "^1.9.5",
+    "@tanstack/react-query": "^4.32.0",
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "eas-cli": "^3.16.0",

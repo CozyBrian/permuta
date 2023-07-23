@@ -1,5 +1,5 @@
 import { FillButton } from "@/components/buttons";
-import { AuthHeader } from "@/components/layout/header";
+import { HeaderWithBack } from "@/components/layout/header";
 import Dropdown from "@/components/inputs/Dropdown";
 import { Edit2 } from "lucide-react-native";
 import { TextInput, View } from "react-native";
@@ -44,7 +44,7 @@ export default function FillYourProfile() {
 
   return (
     <View className="flex-1 bg-white">
-      <AuthHeader title="Fill Your Profile" />
+      <HeaderWithBack title="Fill Your Profile" />
       <View className="flex-1 p-4">
         <View className="flex-1 flex-col items-center">
           <View className="mt-6 mb-8 w-32 h-32">

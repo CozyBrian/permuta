@@ -4,10 +4,10 @@ import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-type AuthHeaderProps = {
+type HeaderWithBackProps = {
   title?: string;
 };
-const AuthHeader = ({ title }: AuthHeaderProps) => {
+const HeaderWithBack = ({ title }: HeaderWithBackProps) => {
   const insets = useSafeAreaInsets();
   return (
     <View
@@ -33,4 +33,4 @@ const AuthHeader = ({ title }: AuthHeaderProps) => {
   );
 };
 
-export default AuthHeader;
+export default HeaderWithBack;

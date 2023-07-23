@@ -1,5 +1,5 @@
 import FillButton from "@/components/buttons/FillButton";
-import { AuthHeader } from "@/components/layout/header";
+import { HeaderWithBack } from "@/components/layout/header";
 import { Link, router } from "expo-router";
 import {
   KeyboardAvoidingView,
@@ -55,7 +55,7 @@ export default function SignUp() {
 
   return (
     <View className="bg-white flex-1">
-      <AuthHeader />
+      <HeaderWithBack />
       <View className="flex-1 items-center justify-center">
         <KeyboardAvoidingView
           className="w-full"

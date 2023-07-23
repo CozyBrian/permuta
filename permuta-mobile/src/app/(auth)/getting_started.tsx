@@ -1,11 +1,11 @@
-import { AuthHeader } from "@/components/layout/header";
+import { HeaderWithBack } from "@/components/layout/header";
 import { Link } from "expo-router";
 import { Image, Pressable, Text, View } from "react-native";
 
 export default function GettingStarted() {
   return (
     <View className="bg-white flex-1">
-      <AuthHeader />
+      <HeaderWithBack />
       <View className="flex-1 items-center justify-between mb-16">
         <Text
           style={{ fontFamily: "Nunito_600SemiBold" }}
