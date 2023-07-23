@@ -53,6 +53,7 @@ model items {
 model category {
   id   String @id @default(uuid())
   name String @unique
+  description String
 
   items items[]
 }

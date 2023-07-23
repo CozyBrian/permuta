@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Electronics",
+    "description": "Items like laptops, smartphones, headphones, etc."
+  },
+  {
+    "title": "Textbooks and Study Materials",
+    "description": "Academic books, notes, and study aids."
+  },
+  {
+    "title": "Furniture",
+    "description": "Desks, chairs, shelves, and other dorm room furniture."
+  },
+  {
+    "title": "Clothing and Accessories",
+    "description": "Clothing, shoes, bags, and fashion items."
+  },
+  {
+    "title": "Appliances",
+    "description": "Mini fridges, microwaves, and electric kettles."
+  },
+  {
+    "title": "Sports and Fitness",
+    "description": "Sports equipment, gym gear, and outdoor accessories."
+  },
+  {
+    "title": "Home Decor",
+    "description": "Decorative items, posters, and wall art."
+  },
+  {
+    "title": "Kitchen and Dining",
+    "description": "Utensils, cookware, and dining sets."
+  },
+  {
+    "title": "Books and Magazines",
+    "description": "Non-academic reading materials."
+  },
+  {
+    "title": "Personal Care",
+    "description": "Toiletries, beauty products, and grooming items."
+  },
+  {
+    "title": "Tech Accessories",
+    "description": "Phone cases, chargers, and other tech-related accessories."
+  },
+  {
+    "title": "Musical Instruments",
+    "description": "Guitars, keyboards, and other musical instruments."
+  },
+  {
+    "title": "Games and Entertainment",
+    "description": "Board games, video games, and DVDs."
+  },
+  {
+    "title": "Stationery",
+    "description": "Pens, notebooks, and school supplies."
+  },
+  {
+    "title": "Art and Craft Supplies",
+    "description": "Painting materials, sketchbooks, and craft tools."
+  }
+]
