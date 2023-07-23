@@ -66,7 +66,7 @@ export const getUserItems = async (
         page,
       },
       {
-        user_id,
+        seller_id: user_id,
         category_id,
         condition,
         name: search,

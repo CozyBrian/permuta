@@ -16,9 +16,9 @@ export const itemsSchema = z.object({
   category_id: z.string({
     required_error: "Category is required",
   }),
-  user_id: z
+  seller_id: z
     .string({
-      required_error: "User id is required",
+      required_error: "Seller id is required",
     })
     .uuid(),
   condition: z.any(),

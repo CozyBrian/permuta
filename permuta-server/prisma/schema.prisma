@@ -60,6 +60,7 @@ model category {
 model hostels {
   id   String @id @default(uuid())
   name String
+  location String
 
   users users[]
 }

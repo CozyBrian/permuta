@@ -38,7 +38,7 @@ export const createItem = async (data: IItemCreate) => {
       price: data.price,
       image_url: data.image_url,
       category_id: data.category_id,
-      user_id: data.user_id,
+      seller_id: data.seller_id,
       condition: data.condition,
     },
   });
@@ -50,13 +50,7 @@ export const updateItem = async (data: IItemUpdate) => {
       id: data.id,
     },
     data: {
-      name: data.name,
-      description: data.description,
-      price: data.price,
-      image_url: data.image_url,
-      category_id: data.category_id,
-      user_id: data.user_id,
-      condition: data.condition,
+      ...data,
     },
   });
 };
