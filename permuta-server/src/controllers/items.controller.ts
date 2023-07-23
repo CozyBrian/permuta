@@ -28,35 +28,6 @@ export const getAllItems = async (
   const query = req.query;
 
   try {
-    const { limit, page } = await getItemsQuerySchema.parseAsync(query);
-
-    const items = await getManyItems({
-      limit,
-      page,
-    });
-    return res.status(200).json({
-      data: items,
-    });
-  } catch (error) {
-    if (error instanceof ZodError) {
-      return res.status(400).send(error);
-    }
-    return res.status(500).send({ error });
-  }
-};
-
-export const getUserItems = async (
-  req: Request<
-    IItemParams,
-    Record<string, never>,
-    Record<string, never>,
-    IItemQuery
-  >,
-  res: Response,
-) => {
-  const query = req.query;
-
-  try {
     const { limit, page, user_id, category_id, condition, search } =
       await getItemsQuerySchema.parseAsync(query);
 
