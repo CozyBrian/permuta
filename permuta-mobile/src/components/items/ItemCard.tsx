@@ -18,7 +18,7 @@ const ItemCard = () => {
         <View className="pt-1 flex-row items-end justify-between">
           <Text
             style={{ fontFamily: FONT.Nunito.Medium }}
-            className="text-lg text-gray-500"
+            className="text-lg text-permuta-text"
           >
             GH₵60.99
           </Text>

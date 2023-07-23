@@ -15,7 +15,7 @@ const SplashLoader = () => {
         Your Gateway to Hostel Commerce
       </Text>
       <View className="absolute bottom-28">
-        <LoadingSpinner radius={28} />
+        <LoadingSpinner radius={20} />
       </View>
     </View>
   );
