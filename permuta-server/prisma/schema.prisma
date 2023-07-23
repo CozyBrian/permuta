@@ -11,54 +11,115 @@ datasource db {
 }
 
 model users {
-  id String @id @default(uuid())
-  username String 
-  email String @unique
-  password String
-  full_name String
+  id           String   @id @default(uuid())
+  username     String
+  email        String   @unique
+  password     String
+  full_name    String
   phone_number String
-  image_url String?
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  hostel_id String?
+  image_url    String?
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  hostel_id    String?
+  gender       gender   @default(MALE)
 
   items items[]
 
-  hostel hostels? @relation(fields: [hostel_id], references: [id])
+  hostel   hostels?   @relation(fields: [hostel_id], references: [id])
+  auctions auctions[]
+
+  bids            bids[]
+  auctions_won auction_winners[]
 }
 
 model items {
-  id String @id @default(uuid())
-  name String
+  id          String      @id @default(uuid())
+  name        String
   description String
-  price Int
-  image_url String?
+  price       Int
+  image_url   String?
   category_id String
-  user_id String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  condition condition
+  seller_id   String
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+  condition   condition
+  status      item_status @default(INSTOCK)
 
-  user users @relation(fields: [user_id], references: [id])
-  category category @relation(fields: [category_id], references: [id])
+  seller   users     @relation(fields: [seller_id], references: [id])
+  category category  @relation(fields: [category_id], references: [id])
+  auctions auctions?
 }
 
 model category {
-  id String @id @default(uuid())
+  id   String @id @default(uuid())
   name String @unique
 
   items items[]
 }
 
 model hostels {
-  id String @id @default(uuid())
+  id   String @id @default(uuid())
   name String
 
   users users[]
+}
+
+model auctions {
+  id             String         @id @default(uuid())
+  item_id        String         @unique
+  seller_id      String
+  starting_price Int
+  start_time     DateTime       @default(now())
+  end_time       DateTime
+  status         auction_status @default(OPEN)
+
+  item            items             @relation(fields: [item_id], references: [id])
+  seller          users             @relation(fields: [seller_id], references: [id])
+  bids            bids[]
+  auction_winners auction_winners?
+}
+
+model bids {
+  id         String   @id @default(uuid())
+  auction_id String
+  bidder_id  String
+  amount     Int
+  created_at DateTime @default(now())
+
+  auction auctions @relation(fields: [auction_id], references: [id])
+  bidder  users    @relation(fields: [bidder_id], references: [id])
+}
+
+model auction_winners {
+  id         String   @id @default(uuid())
+  auction_id String   @unique
+  winner_id  String
+  amount     Int
+  created_at DateTime @default(now())
+
+  auction auctions @relation(fields: [auction_id], references: [id])
+  winner  users    @relation(fields: [winner_id], references: [id])
 }
 
 enum condition {
   NEW
   SLIGHTLY_USED
   USED
+}
+
+enum gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum item_status {
+  INSTOCK
+  OUT_OF_STOCK
+  UNAVAILABLE
+}
+
+enum auction_status {
+  OPEN
+  CLOSE
 }
