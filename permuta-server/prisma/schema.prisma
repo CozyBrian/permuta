@@ -20,12 +20,12 @@ model users {
   image_url    String?
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
-  hostel_id    String?
+  hostel_id    String
   gender       gender   @default(MALE)
 
   items items[]
 
-  hostel   hostels?   @relation(fields: [hostel_id], references: [id])
+  hostel   hostels   @relation(fields: [hostel_id], references: [id])
   auctions auctions[]
 
   bids            bids[]
@@ -59,7 +59,7 @@ model category {
 
 model hostels {
   id   String @id @default(uuid())
-  name String
+  name String @unique
   location String
 
   users users[]
