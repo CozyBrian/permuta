@@ -7,7 +7,7 @@ import { View, Text, Pressable } from "react-native";
 const SearchItemCard = () => {
   return (
     <Pressable
-      onPress={() => router.push("/(main)/search/item/3")}
+      onPress={() => router.push("/(main)/item/3")}
       className="flex-1 flex-row mx-2 my-2 h-20"
     >
       <View className="h-full mr-[14px] aspect-square bg-permuta-primary rounded-2xl"></View>

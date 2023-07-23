@@ -1,11 +1,15 @@
 import { FONT } from "@/assets/font";
+import { router } from "expo-router";
 import { Heart } from "lucide-react-native";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 
 const ItemCard = () => {
   return (
-    <Pressable className="flex-1 mx-2 my-2">
+    <Pressable
+      onPress={() => router.push("/(main)/item/4")}
+      className="flex-1 mx-2 my-2"
+    >
       <View className="w-full aspect-[6/5] bg-permuta-primary rounded-2xl"></View>
       <View className="flex-col pt-1">
         <Text numberOfLines={1} className="text-ellipsis">
