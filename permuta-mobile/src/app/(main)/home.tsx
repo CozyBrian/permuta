@@ -1,8 +1,8 @@
 import { FONT } from "@/assets/font";
 import WelcomeBanner from "@/components/home/banner";
 import SearchInput from "@/components/inputs/SearchInput";
+import { ItemCard } from "@/components/items";
 import { Header } from "@/components/layout/header";
-import { Heart } from "lucide-react-native";
 import { Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -29,26 +29,7 @@ export default function Home() {
           )}
           contentContainerStyle={{ paddingBottom: insets.bottom + 74 }}
           data={[1, 2, 3, 4, 5, 6]}
-          renderItem={({ item }) => (
-            <View className="flex-1 mx-2 my-2">
-              <View className="w-full aspect-[6/5] bg-permuta-primary rounded-2xl"></View>
-              <View className="flex-col pt-1">
-                <Text numberOfLines={1} className="text-ellipsis">
-                  Brand New Oraimo Earbuds
-                </Text>
-                <View className="pt-1 flex-row items-end justify-between">
-                  <Text
-                    style={{ fontFamily: FONT.Nunito.Medium }}
-                    className="text-lg text-gray-500"
-                  >
-                    GH₵60.99
-                  </Text>
-                  <Heart size={24} color="#7D7D7D" />
-                </View>
-              </View>
-            </View>
-          )}
-          //Setting the number of column
+          renderItem={({ item }) => <ItemCard />}
           numColumns={2}
           keyExtractor={(item, index) => `item-${item}`}
         />

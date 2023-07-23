@@ -9,13 +9,16 @@ const TabBar = ({
   navigation,
   insets,
 }: BottomTabBarProps) => {
+  const leaveOut = ["item/[id]"];
+
+  const routes = state.routes.filter((item) => !leaveOut.includes(item.name));
   return (
     <View
       style={{ paddingBottom: insets.bottom }}
       className="absolute left-0 bottom-0 flex-row justify-center items-center w-full px-4"
     >
       <View className="h-16 w-full flex-row bg-white shadow-md shadow-[#e4f2ff92] rounded-2xl py-1 -mx-1">
-        {state.routes.map((route, index) => {
+        {routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const Label =
             options.title !== undefined ? options.title : route.name;

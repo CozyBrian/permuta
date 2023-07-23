@@ -8,7 +8,7 @@ const SearchInput = () => {
   return (
     <View
       className={classNames(
-        "w-full h-11 flex-row items-center px-[14px] mb-[18px] border bg-white rounded-2xl",
+        "w-full h-11 flex-row items-center px-[14px] mb-[14px] border bg-white rounded-2xl",
         isFocused ? "border-permuta-edge" : "border-white"
       )}
     >
