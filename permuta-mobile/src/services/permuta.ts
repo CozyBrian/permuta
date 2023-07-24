@@ -2,8 +2,9 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import axios from "@/lib/axios";
 import {
   IAuthResponse,
-  IGetAllItemsRespose,
-  IItems,
+  ICategory,
+  IGetAllItemsResponse,
+  IItem,
   ILoginPayload,
   IRegisterPayload,
 } from "@/types";
@@ -20,15 +21,37 @@ export const usePermuta = () => {
       const query = new URLSearchParams(
         params as Record<string, string>
       ).toString();
-      return authAxios.get<IGetAllItemsRespose>(`/v1/items?${query}`);
+      return authAxios.get<IGetAllItemsResponse>(`/v1/items?${query}`);
     },
+
     getItemDetails: async (itemId: string) => {
-      return authAxios.get<IItems>(`/v1/items/${itemId}/`);
+      return authAxios.get<IItem>(`/v1/items/${itemId}/`);
+    },
+  };
+
+  const category = {
+    getAllCategories: async () => {
+      return authAxios.get<ICategory[]>("/v1/categories/");
+    },
+  };
+
+  const hostels = {
+    getAllHostels: async (params: {
+      search?: string;
+      limit?: string | number;
+      page?: string | number;
+    }) => {
+      const query = new URLSearchParams(
+        params as Record<string, string>
+      ).toString();
+      return authAxios.get(`/v1/hostels?${query}`);
     },
   };
 
   return {
     items,
+    category,
+    hostels,
   };
 };
 
