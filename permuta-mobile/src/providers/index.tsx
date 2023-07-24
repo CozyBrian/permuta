@@ -12,6 +12,9 @@ import {
 import { NunitoSans_700Bold } from "@expo-google-fonts/nunito-sans";
 import * as SplashScreen from "expo-splash-screen";
 import InitializerProvider from "./InitializerProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   let [fontsLoaded] = useFonts({
@@ -35,9 +38,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Provider store={store}>
-        <InitializerProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </InitializerProvider>
+        <QueryClientProvider client={queryClient}>
+          <InitializerProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </InitializerProvider>
+        </QueryClientProvider>
       </Provider>
     </>
   );
