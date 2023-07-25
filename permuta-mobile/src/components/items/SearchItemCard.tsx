@@ -12,7 +12,7 @@ const SearchItemCard = ({ item }: SearchItemCardProps) => {
   return (
     <Pressable
       onPress={() => router.push(`/(main)/item/${item.id}`)}
-      className="flex-1 flex-row mx-2 my-2 h-20"
+      className="flex-1 flex-row my-2 h-20"
     >
       <View className="h-full mr-[14px] aspect-square bg-permuta-primary rounded-2xl"></View>
       <View

@@ -56,7 +56,7 @@ export type IHostel = {
 
 export type IItemsMin = Pick<
   IItem,
-  "id" | "name" | "price" | "image_url" | "seller" | "auctions"
+  "id" | "name" | "price" | "image_url" | "seller" | "auctions" | "category_id"
 >;
 
 type GetAll<T> = {

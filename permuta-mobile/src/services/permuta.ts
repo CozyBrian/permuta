@@ -17,9 +17,18 @@ export const usePermuta = () => {
       search?: string;
       limit?: string | number;
       page?: string | number;
+      category_id?: string;
     }) => {
+      const data = params as any;
+
+      for (let key in data) {
+        if (data[key] === undefined) {
+          delete data[key];
+        }
+      }
+
       const query = new URLSearchParams(
-        params as Record<string, string>
+        data as Record<string, string>
       ).toString();
       return authAxios.get<IGetAllItemsResponse>(`/v1/items?${query}`);
     },

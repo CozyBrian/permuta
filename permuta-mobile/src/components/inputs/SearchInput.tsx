@@ -3,7 +3,11 @@ import { Search } from "lucide-react-native";
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
 
-const SearchInput = () => {
+type SearchInputProps = {
+  value: string;
+  onChangeText: (text: string) => void;
+};
+const SearchInput = ({ value, onChangeText }: SearchInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
   return (
     <View
@@ -16,6 +20,8 @@ const SearchInput = () => {
       <TextInput
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        value={value}
+        onChangeText={onChangeText}
         placeholder="Search"
         placeholderTextColor="#000"
         allowFontScaling
