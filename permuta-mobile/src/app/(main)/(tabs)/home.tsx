@@ -1,13 +1,11 @@
 import { FONT } from "@/assets/font";
 import WelcomeBanner from "@/components/home/banner";
-import SearchInput from "@/components/inputs/SearchInput";
 import { ItemCard } from "@/components/items";
 import { Header } from "@/components/layout/header";
-import LoadingSpinner from "@/components/layout/loadingSpinner";
 import { usePermuta } from "@/services/permuta";
+import { FlashList } from "@shopify/flash-list";
 import { useQuery } from "@tanstack/react-query";
-import { Text, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { RefreshControl, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Home() {
@@ -20,9 +18,38 @@ export default function Home() {
   });
 
   return (
-    <View className="flex-1 bg-permuta-background items-center">
+    <View className="flex-1 bg-permuta-background">
       <Header />
-      {isLoading ? (
+      <View className="px-4">
+        <WelcomeBanner />
+        <Text
+          style={{ fontFamily: FONT.NunitoSans.Bold }}
+          className="text-2xl leading-7 mt-[32px] uppercase"
+        >
+          Around You
+        </Text>
+      </View>
+      <View className="flex-1 w-full px-4">
+        <FlashList
+          data={data?.data.items}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 74 }}
+          renderItem={({ item }) => <ItemCard item={item} />}
+          keyExtractor={(item) => item.id}
+          estimatedItemSize={200}
+          numColumns={2}
+          onEndReached={() => {
+            console.log("end reached");
+          }}
+          refreshing={isLoading}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={() => console.log("refreshing")}
+            />
+          }
+        />
+      </View>
+      {/* {isLoading ? (
         <View className="flex-1 items-center justify-center">
           <LoadingSpinner />
         </View>
@@ -32,7 +59,6 @@ export default function Home() {
             className="h-full -mx-2 -my-2"
             ListHeaderComponent={() => (
               <View className="px-2">
-                <SearchInput />
                 <WelcomeBanner />
                 <Text
                   style={{ fontFamily: FONT.NunitoSans.Bold }}
@@ -49,7 +75,7 @@ export default function Home() {
             keyExtractor={(item, index) => item.id}
           />
         </View>
-      )}
+      )} */}
     </View>
   );
 }

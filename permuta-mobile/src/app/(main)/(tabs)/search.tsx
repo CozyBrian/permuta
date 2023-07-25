@@ -1,14 +1,14 @@
 import { HeaderWithBack } from "@/components/layout/header";
-import { ScrollView, View } from "react-native";
+import { RefreshControl, View } from "react-native";
 import SearchInput from "@/components/inputs/SearchInput";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CategoryBar from "@/components/inputs/categoryBar";
 import SearchItemCard from "@/components/items/SearchItemCard";
 import { usePermuta } from "@/services/permuta";
 import { useQuery } from "@tanstack/react-query";
-import LoadingSpinner from "@/components/layout/loadingSpinner";
 import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebouce";
+import { FlashList } from "@shopify/flash-list";
 
 export default function Search() {
   const insets = useSafeAreaInsets();
@@ -17,7 +17,7 @@ export default function Search() {
   const debouncedSearchText = useDebounce(searchText, 500);
   const { items } = usePermuta();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["items", category, debouncedSearchText],
     queryFn: () =>
       items.getAllItems({
@@ -37,20 +37,23 @@ export default function Search() {
         />
       </View>
       <View className="flex-1 w-full px-4">
-        {isLoading && data !== undefined ? (
-          <View className="flex-1 items-center justify-center">
-            <LoadingSpinner />
-          </View>
-        ) : (
-          <ScrollView
-            style={{ paddingBottom: insets.bottom + 74 }}
-            className="flex-1"
-          >
-            {data?.data.items.map((item) => (
-              <SearchItemCard key={item.id} item={item} />
-            ))}
-          </ScrollView>
-        )}
+        <FlashList
+          data={data?.data.items}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 74 }}
+          renderItem={({ item }) => <SearchItemCard item={item} />}
+          keyExtractor={(item) => item.id}
+          estimatedItemSize={80}
+          onEndReached={() => {
+            console.log("end reached");
+          }}
+          refreshing={isLoading}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={() => refetch()}
+            />
+          }
+        />
       </View>
     </View>
   );
