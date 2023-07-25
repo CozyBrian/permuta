@@ -3,7 +3,7 @@ import { IItemsMin } from "@/types";
 import { router } from "expo-router";
 import { Heart } from "lucide-react-native";
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 
 type ItemCardProps = {
   item: IItemsMin;
@@ -14,7 +14,14 @@ const ItemCard = ({ item }: ItemCardProps) => {
       onPress={() => router.push(`/(main)/item/${item.id}`)}
       className="flex-1 mx-2 my-2"
     >
-      <View className="w-full aspect-[6/5] bg-permuta-primary rounded-2xl"></View>
+      <View className="w-full aspect-[6/5] bg-permuta-primary rounded-2xl">
+        {item.image_url && (
+          <Image
+            className="w-full h-full rounded-2xl"
+            source={{ uri: item.image_url }}
+          />
+        )}
+      </View>
       <View className="flex-col pt-1">
         <Text numberOfLines={1} className="text-ellipsis">
           {item.name}

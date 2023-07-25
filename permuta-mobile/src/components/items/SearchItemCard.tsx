@@ -3,7 +3,7 @@ import { SCREEN_WIDTH } from "@/constants";
 import { IItemsMin } from "@/types";
 import { router } from "expo-router";
 import { Heart } from "lucide-react-native";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 
 type SearchItemCardProps = {
   item: IItemsMin;
@@ -14,7 +14,14 @@ const SearchItemCard = ({ item }: SearchItemCardProps) => {
       onPress={() => router.push(`/(main)/item/${item.id}`)}
       className="flex-1 flex-row my-2 h-20"
     >
-      <View className="h-full mr-[14px] aspect-square bg-permuta-primary rounded-2xl"></View>
+      <View className="h-full mr-[14px] aspect-square bg-permuta-primary rounded-2xl">
+        {item.image_url && (
+          <Image
+            className="w-full h-full rounded-2xl"
+            source={{ uri: item.image_url }}
+          />
+        )}
+      </View>
       <View
         style={{
           width: SCREEN_WIDTH - 32 - 80 - 14,

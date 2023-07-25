@@ -6,7 +6,7 @@ import { usePermuta } from "@/services/permuta";
 import { useQuery } from "@tanstack/react-query";
 import { router, useSearchParams } from "expo-router";
 import { ChevronLeft, Minus, Plus } from "lucide-react-native";
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ItemDetails() {
@@ -31,6 +31,9 @@ export default function ItemDetails() {
         }}
         className="h-72 bg-permuta-primary"
       >
+        {item?.image_url && (
+          <Image className="w-full h-full" source={{ uri: item?.image_url }} />
+        )}
         <IconButton
           onPress={() => router.back()}
           Icon={ChevronLeft}
