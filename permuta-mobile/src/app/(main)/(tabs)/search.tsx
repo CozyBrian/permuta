@@ -5,10 +5,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CategoryBar from "@/components/inputs/categoryBar";
 import SearchItemCard from "@/components/items/SearchItemCard";
 import { usePermuta } from "@/services/permuta";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebouce";
 import { FlashList } from "@shopify/flash-list";
+import { AxiosError } from "axios";
 
 export default function Search() {
   const insets = useSafeAreaInsets();
@@ -17,13 +18,26 @@ export default function Search() {
   const debouncedSearchText = useDebounce(searchText, 500);
   const { items } = usePermuta();
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery({
     queryKey: ["items", category, debouncedSearchText],
-    queryFn: () =>
+    queryFn: ({ pageParam = 1 }) =>
       items.getAllItems({
+        page: pageParam,
         category_id: category,
         search: debouncedSearchText,
       }),
+    retry(failureCount, error) {
+      if ((error as AxiosError).status === 404) return false;
+      else if (failureCount < 3) return true;
+      else return false;
+    },
+    getNextPageParam: (lastPage) => {
+      if (lastPage.data.page < lastPage.data.totalPages) {
+        return lastPage.data.page + 1;
+      }
+      return false;
+    },
+    keepPreviousData: true,
   });
 
   return (
@@ -38,19 +52,21 @@ export default function Search() {
       </View>
       <View className="flex-1 w-full px-4">
         <FlashList
-          data={data?.data.items}
+          data={data?.pages.map((page) => page.data.items).flat()}
           contentContainerStyle={{ paddingBottom: insets.bottom + 74 }}
           renderItem={({ item }) => <SearchItemCard item={item} />}
           keyExtractor={(item) => item.id}
           estimatedItemSize={80}
           onEndReached={() => {
-            console.log("end reached");
+            if (hasNextPage) {
+              fetchNextPage();
+            }
           }}
           refreshing={isLoading}
           refreshControl={
             <RefreshControl
               refreshing={isLoading}
-              onRefresh={() => refetch()}
+              onRefresh={() => console.log("refreshing")}
             />
           }
         />
