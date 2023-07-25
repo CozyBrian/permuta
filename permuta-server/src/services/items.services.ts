@@ -20,6 +20,7 @@ export const getManyItems = async (
       name: true,
       price: true,
       image_url: true,
+      category_id: true,
       seller: {
         select: {
           username: true,
