@@ -27,7 +27,7 @@ export default function MainLayout() {
         name="my-profile"
         options={{
           href: "my-profile",
-          title: "My Profile",
+          title: "Profile",
           tabBarIcon: ({ size, color }) => <User size={size} color={color} />,
         }}
       />

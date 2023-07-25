@@ -42,7 +42,7 @@ export default function Search() {
 
   return (
     <View className="flex-1 bg-permuta-background">
-      <HeaderWithBack title="Search" />
+      <HeaderWithBack title="Search" centerTitle showBack={false} />
       <View className="px-4">
         <SearchInput value={searchText} onChangeText={setSearchText} />
         <CategoryBar
