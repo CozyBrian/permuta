@@ -36,3 +36,7 @@ export const isHostelExists = async (id: string) => {
     },
   }));
 };
+
+export const getTotalHostelCount = async () => {
+  return await Prisma.hostels.count();
+};

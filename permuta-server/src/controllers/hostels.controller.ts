@@ -7,6 +7,7 @@ import {
 import {
   getManyHostels,
   getOneHostel,
+  getTotalHostelCount,
   isHostelExists,
 } from "../services/hostels.services";
 import { ZodError } from "zod";
@@ -37,11 +38,23 @@ export const getHostels = async (
       },
     );
 
-    return res.status(200).json({
+    const total = await getTotalHostelCount();
+    const totalPages = Math.ceil(total / limit);
+
+    const nextPage = page + 1 > totalPages ? null : page + 1;
+    const prevPage = page - 1 < 1 ? null : page - 1;
+
+    const Res = {
       items: hostels,
       limit,
       page,
-    });
+      total,
+      totalPages,
+      nextPage,
+      prevPage,
+    };
+
+    return res.status(200).json(Res);
   } catch (error) {
     if (error instanceof ZodError) {
       return res.status(400).send(error);

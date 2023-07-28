@@ -1,11 +1,10 @@
+import { useKeyboardStatus } from "@/hooks/useKeyboardStatus";
 import { FlashList } from "@shopify/flash-list";
 import classNames from "classnames";
 import { ChevronDown } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  KeyboardAvoidingView,
   Modal,
-  Platform,
   Pressable,
   ScrollView,
   Text,
@@ -52,6 +51,8 @@ const Dropdown = ({
   const dropdownRef = useRef<View>(null);
   const modalRef = useClickOutside<View>(() => setisDropdownOpen(false));
 
+  const { isKeyboardVisible, metrics } = useKeyboardStatus();
+
   useEffect(() => {
     dropdownRef.current?.measureInWindow((x, y, w, h) => {
       const value = { x, y, w, h };
@@ -65,6 +66,19 @@ const Dropdown = ({
       onChange?.(SelectedItem);
     }
   }, [SelectedItem, onChange]);
+
+  const top = () => {
+    const { y, h } = dropdownDimension;
+    const keyboardHeight = metrics?.height ?? 216;
+    if (!isKeyboardVisible) {
+      return y + h + 12;
+    } else {
+      if (y + h + 12 + 220 > keyboardHeight) {
+        return y - 220;
+      }
+      return y + h + 12;
+    }
+  };
 
   return (
     <View>
@@ -88,90 +102,83 @@ const Dropdown = ({
         transparent
         className="bg-transparent absolute"
       >
-        <KeyboardAvoidingView
-          className="w-full"
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        <View
+          ref={modalRef}
+          style={{
+            width: dropdownDimension.w,
+            top: top(),
+            left: dropdownDimension.x,
+          }}
+          className={classNames(
+            "absolute min-h-[44px] bg-white border border-permuta-edge rounded-lg overflow-clip p-0.5",
+            isSearchable ? "max-h-[220px]" : "max-h-[176px]"
+          )}
         >
-          <View
-            ref={modalRef}
-            style={{
-              width: dropdownDimension.w,
-              top: dropdownDimension.y + dropdownDimension.h + 12,
-              left: dropdownDimension.x,
-            }}
-            className={classNames(
-              "absolute min-h-[44px] bg-white border border-permuta-edge rounded-lg overflow-clip p-0.5",
-              isSearchable ? "max-h-[220px]" : "max-h-[176px]"
-            )}
-          >
-            {isSearchable ? (
-              <>
-                <TextInput
-                  placeholder="Search"
-                  placeholderTextColor="#667085"
-                  autoCapitalize="none"
-                  onChangeText={setSearchText}
-                  value={searchText}
-                  className="w-full h-11 border text-base leading-5 rounded-lg px-4 border-permuta-edge"
+          {isSearchable ? (
+            <>
+              <TextInput
+                placeholder="Search"
+                placeholderTextColor="#667085"
+                autoCapitalize="none"
+                onChangeText={setSearchText}
+                value={searchText}
+                className="w-full h-11 border text-base leading-5 rounded-lg px-4 border-permuta-edge"
+              />
+              <View className="h-[170px]">
+                <FlashList
+                  data={items}
+                  className="w-full max-h-[176px]"
+                  renderItem={({ item }) => (
+                    <Pressable
+                      key={item.value}
+                      onPress={() => {
+                        setisDropdownOpen(false);
+                        setSelectedItem(item);
+                      }}
+                      className={classNames(
+                        "w-full h-11 flex-row items-center justify-between px-4 rounded-md",
+                        SelectedItem?.value === item.value
+                          ? "bg-[#F2F2F2]"
+                          : "bg-white"
+                      )}
+                    >
+                      <Text className="text-[#667085] text-base">
+                        {item.label}
+                      </Text>
+                    </Pressable>
+                  )}
+                  keyExtractor={(item) => item.value}
+                  estimatedItemSize={44}
+                  onEndReached={() => {
+                    if (hasNextPage) {
+                      fetchNextPage!();
+                    }
+                  }}
                 />
-                <View className="h-[170px]">
-                  <FlashList
-                    data={items}
-                    className="w-full max-h-[176px]"
-                    renderItem={({ item }) => (
-                      <Pressable
-                        key={item.value}
-                        onPress={() => {
-                          setisDropdownOpen(false);
-                          setSelectedItem(item);
-                        }}
-                        className={classNames(
-                          "w-full h-11 flex-row items-center justify-between px-4 rounded-md",
-                          SelectedItem?.value === item.value
-                            ? "bg-[#F2F2F2]"
-                            : "bg-white"
-                        )}
-                      >
-                        <Text className="text-[#667085] text-base">
-                          {item.label}
-                        </Text>
-                      </Pressable>
-                    )}
-                    keyExtractor={(item) => item.value}
-                    estimatedItemSize={44}
-                    onEndReached={() => {
-                      if (hasNextPage) {
-                        fetchNextPage!();
-                      }
-                    }}
-                  />
-                </View>
-              </>
-            ) : (
-              <ScrollView className="w-full h-full">
-                {items.map((item) => (
-                  <Pressable
-                    key={item.value}
-                    onPress={() => {
-                      setisDropdownOpen(false);
-                      setSelectedItem(item);
-                    }}
-                    className={classNames(
-                      "w-full h-11 flex-row items-center justify-between px-4 rounded-md",
-                      SelectedItem?.value === item.value
-                        ? "bg-[#F2F2F2]"
-                        : "bg-white"
-                    )}
-                  >
-                    <Text className="text-[#667085] text-base">
-                      {item.label}
-                    </Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
-            )}
-          </View>
-        </KeyboardAvoidingView>
+              </View>
+            </>
+          ) : (
+            <ScrollView className="w-full h-full">
+              {items.map((item) => (
+                <Pressable
+                  key={item.value}
+                  onPress={() => {
+                    setisDropdownOpen(false);
+                    setSelectedItem(item);
+                  }}
+                  className={classNames(
+                    "w-full h-11 flex-row items-center justify-between px-4 rounded-md",
+                    SelectedItem?.value === item.value
+                      ? "bg-[#F2F2F2]"
+                      : "bg-white"
+                  )}
+                >
+                  <Text className="text-[#667085] text-base">{item.label}</Text>
+                </Pressable>
+              ))}
+            </ScrollView>
+          )}
+        </View>
       </Modal>
     </View>
   );

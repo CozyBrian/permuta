@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import React, { useState } from "react";
 import Dropdown from "./Dropdown";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -11,7 +10,7 @@ const HotelDropdown = () => {
   const [searchText, setSearchText] = useState("");
   const debouncedSearchText = useDebounce(searchText, 500);
 
-  const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["items", debouncedSearchText],
     queryFn: ({ pageParam = 1 }) =>
       hostels.getAllHostels({ page: pageParam, search: debouncedSearchText }),
