@@ -37,13 +37,7 @@ export const getManyUsers = async (
 export const createUser = async (user: IUserCreate) => {
   const newUser = await Prisma.users.create({
     data: {
-      full_name: user.full_name,
-      username: user.username,
-      email: user.email,
-      password: user.password,
-      phone_number: user.phone_number,
-      image_url: user.image_url,
-      hostel_id: user.hostel_id,
+      ...user,
     },
   });
 
@@ -56,12 +50,7 @@ export const updateSchema = async (user: IUserUpdate) => {
       id: user.id,
     },
     data: {
-      full_name: user.full_name,
-      username: user.username,
-      email: user.email,
-      phone_number: user.phone_number,
-      image_url: user.image_url,
-      hostel_id: user.hostel_id,
+      ...user,
     },
   });
 
