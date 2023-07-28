@@ -3,11 +3,13 @@ import axios from "@/lib/axios";
 import {
   IAuthResponse,
   ICategory,
+  IGetAllHostelsResponse,
   IGetAllItemsResponse,
   IItem,
   ILoginPayload,
   IRegisterPayload,
 } from "@/types";
+import { ObjectToQueryParams } from "@/utils";
 
 export const usePermuta = () => {
   const authAxios = useAxiosAuth();
@@ -19,17 +21,7 @@ export const usePermuta = () => {
       page?: string | number;
       category_id?: string;
     }) => {
-      const data = params as any;
-
-      for (let key in data) {
-        if (data[key] === undefined) {
-          delete data[key];
-        }
-      }
-
-      const query = new URLSearchParams(
-        data as Record<string, string>
-      ).toString();
+      const query = ObjectToQueryParams(params);
       return authAxios.get<IGetAllItemsResponse>(`/v1/items?${query}`);
     },
 
@@ -50,10 +42,10 @@ export const usePermuta = () => {
       limit?: string | number;
       page?: string | number;
     }) => {
-      const query = new URLSearchParams(
-        params as Record<string, string>
-      ).toString();
-      return authAxios.get(`/v1/hostels?${query}`);
+      const query = ObjectToQueryParams(params);
+      return authAxios
+        .get<IGetAllHostelsResponse>(`/v1/hostels?${query}`)
+        .then((res) => res.data);
     },
   };
 

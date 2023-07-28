@@ -32,9 +32,11 @@ function useProtectedRoute(isAuth: boolean) {
       !inAuthGroup
     ) {
       // Redirect to the sign-in page.
-      router.replace("/");
+      console.log("auth here");
+      router.replace("/(auth)/");
     } else if (isAuth && inAuthGroup) {
       // Redirect away from the sign-in page.
+      console.log("home here");
       router.replace("/(main)/(tabs)/home");
     }
   }, [segments, router, isAuth, isNavigationReady]);

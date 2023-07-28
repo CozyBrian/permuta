@@ -65,11 +65,13 @@ type GetAll<T> = {
   page: number;
 };
 
-export type IGetAllItemsResponse = GetAll<IItemsMin> & {
+type GetAllExtended<T> = GetAll<T> & {
   total: number;
   totalPages: number;
   nextPage: number | string;
   prevPage: number | string;
 };
 
-export type IGetAllHostelsResponse = GetAll<IHostel>;
+export type IGetAllItemsResponse = GetAllExtended<IItemsMin>;
+
+export type IGetAllHostelsResponse = GetAllExtended<IHostel>;

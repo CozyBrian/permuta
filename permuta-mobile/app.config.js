@@ -27,6 +27,11 @@ module.exports = {
         backgroundColor: "#ffffff",
       },
     },
+    extra: {
+      eas: {
+        projectId: "2ccbff41-6b61-445c-aff2-746f094464ce",
+      },
+    },
     plugins: ["expo-router"],
     experiments: {
       typedRoutes: true,

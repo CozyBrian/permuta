@@ -37,7 +37,6 @@ export default function SignUp() {
   const onSubmit = async (data: IRegisterPayload) => {
     try {
       setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1 * 1000));
       dispatch(
         action.auth.setRegisterData({
           email: data.email,

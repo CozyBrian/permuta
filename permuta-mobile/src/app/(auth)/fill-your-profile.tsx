@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { action } from "@/redux";
 import classNames from "classnames";
 import { userRegister } from "@/services/permuta";
+import HotelDropdown from "@/components/inputs/hotelDropdown";
 
 export default function FillYourProfile() {
   const { registerData } = useAppSelector((state) => state.auth);
@@ -82,48 +83,6 @@ export default function FillYourProfile() {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  placeholder="Username"
-                  placeholderTextColor={"#667085"}
-                  autoCapitalize="none"
-                  className={classNames(
-                    "w-full h-11 border text-base leading-5 rounded-lg px-4 mt-[14px]",
-                    errors.username ? "border-red-500" : "border-permuta-edge"
-                  )}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              )}
-              name="username"
-            />
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  placeholder="Email"
-                  placeholderTextColor={"#667085"}
-                  autoCapitalize="none"
-                  className={classNames(
-                    "w-full h-11 border text-base leading-5 rounded-lg px-4 mt-[14px]",
-                    errors.email ? "border-red-500" : "border-permuta-edge"
-                  )}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              )}
-              name="email"
-            />
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
                   placeholder="Phone"
                   placeholderTextColor={"#667085"}
                   autoCapitalize="none"
@@ -158,6 +117,9 @@ export default function FillYourProfile() {
                   },
                 ]}
               />
+            </View>
+            <View>
+              <HotelDropdown />
             </View>
           </View>
           <FillButton
