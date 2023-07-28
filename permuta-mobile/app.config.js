@@ -14,12 +14,14 @@ module.exports = {
     },
     assetBundlePatterns: ["**/*"],
     ios: {
+      bundleIdentifier: "com.cozybrian.Permuta",
       supportsTablet: true,
       config: {
         usesNonExemptEncryption: false,
       },
     },
     android: {
+      package: "com.cozybrian.Permuta",
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#ffffff",
