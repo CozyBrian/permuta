@@ -15,14 +15,21 @@ import { useState } from "react";
 import { useAppDispatch } from "@/hooks";
 import { action } from "@/redux";
 import classNames from "classnames";
+import { useDebounce } from "@/hooks/useDebouce";
+import { useQuery } from "@tanstack/react-query";
+import { usePermuta } from "@/services/permuta";
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const { auth } = usePermuta();
 
   const {
     control,
     handleSubmit,
+    setError,
+    clearErrors,
+    watch,
     formState: { errors },
   } = useForm<IRegisterPayload>({
     defaultValues: {
@@ -31,6 +38,31 @@ export default function SignUp() {
       username: "",
       full_name: "",
       phone_number: "",
+      gender: "MALE",
+      hostel_id: "",
+      image_url: null,
+    },
+  });
+
+  const debouncedUsername = useDebounce(watch("username"), 500);
+
+  const {
+    data,
+    isSuccess,
+    isLoading: isUsernameValidLoading,
+  } = useQuery({
+    enabled: debouncedUsername !== "",
+    queryKey: ["isUsernameValid", debouncedUsername],
+    queryFn: () => auth.getIsUsernameValid(debouncedUsername),
+    onSuccess(data) {
+      if (data.exists) {
+        setError("username", {
+          type: "manual",
+          message: "Username is already taken",
+        });
+      } else {
+        clearErrors("username");
+      }
     },
   });
 
@@ -61,6 +93,19 @@ export default function SignUp() {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <View className="flex-col gap-y-[14px] items-center w-full px-9">
+            <View className="absolute right-10 top-9">
+              {isUsernameValidLoading && (
+                <Text className="text-permuta-primaryDark">Checking...</Text>
+              )}
+              {isSuccess && data?.exists && (
+                <Text className="text-red-500">Username is already taken</Text>
+              )}
+              {isSuccess && !data?.exists && (
+                <Text className="text-green-500">Username is available</Text>
+              )}
+
+              {/* <Text>is available</Text> */}
+            </View>
             <Text
               style={{ fontFamily: "Nunito_600SemiBold" }}
               className="text-2xl pb-2"

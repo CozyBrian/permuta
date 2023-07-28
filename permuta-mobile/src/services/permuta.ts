@@ -49,10 +49,21 @@ export const usePermuta = () => {
     },
   };
 
+  const auth = {
+    getIsUsernameValid: async (username: string) => {
+      return authAxios
+        .get<{
+          exists: boolean;
+        }>(`/v1/auth/isUsernameExists?username=${username}`)
+        .then((res) => res.data);
+    },
+  };
+
   return {
     items,
     category,
     hostels,
+    auth,
   };
 };
 

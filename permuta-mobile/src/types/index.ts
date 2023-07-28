@@ -16,6 +16,8 @@ export type IRegisterPayload = {
   password: string;
   phone_number: string;
   image_url: string | null;
+  hostel_id: string;
+  gender?: "MALE" | "FEMALE" | "OTHER";
 };
 
 export type IItem = {

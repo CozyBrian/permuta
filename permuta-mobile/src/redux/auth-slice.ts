@@ -21,6 +21,7 @@ const initialState: initialStateType = {
     phone_number: "",
     image_url: "",
     username: "",
+    hostel_id: "",
   },
 };
 

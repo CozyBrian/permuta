@@ -21,6 +21,7 @@ export default function FillYourProfile() {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<IRegisterPayload>({
     defaultValues: registerData,
   });
@@ -116,10 +117,15 @@ export default function FillYourProfile() {
                     value: "OTHER",
                   },
                 ]}
+                onChange={({ value }) =>
+                  setValue("gender", value as IRegisterPayload["gender"])
+                }
               />
             </View>
             <View>
-              <HotelDropdown />
+              <HotelDropdown
+                onChange={({ value }) => setValue("hostel_id", value)}
+              />
             </View>
           </View>
           <FillButton

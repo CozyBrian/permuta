@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { ComponentProps, useState } from "react";
 import Dropdown from "./Dropdown";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { usePermuta } from "@/services/permuta";
 import { AxiosError } from "axios";
 import { useDebounce } from "@/hooks/useDebouce";
 
-const HotelDropdown = () => {
+type HotelDropdownProps = {
+  onChange: ComponentProps<typeof Dropdown>["onChange"];
+};
+
+const HotelDropdown = ({ onChange }: HotelDropdownProps) => {
   const { hostels } = usePermuta();
   const [searchText, setSearchText] = useState("");
   const debouncedSearchText = useDebounce(searchText, 500);
@@ -42,7 +46,7 @@ const HotelDropdown = () => {
           )
           .flat() || []
       }
-      onChange={(value) => console.log(value)}
+      onChange={onChange}
       hasNextPage={hasNextPage}
       fetchNextPage={fetchNextPage}
       setSearchText={setSearchText}
