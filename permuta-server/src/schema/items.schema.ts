@@ -27,7 +27,7 @@ export const itemsSchema = z.object({
   condition: z.nativeEnum(condition_enum, {
     required_error: "Condition is required",
   }),
-  status: z.nativeEnum(item_status_enum),
+  status: z.nativeEnum(item_status_enum).optional(),
   created_at: z.date(),
   updated_at: z.date(),
 });
