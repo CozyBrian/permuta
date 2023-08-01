@@ -6,10 +6,11 @@ import LoadingSpinner from "../layout/loadingSpinner";
 type FillButtonProps = {
   label: string;
   isLoading?: boolean;
+  labelClassName?: string;
 } & React.ComponentProps<typeof Pressable>;
 
 const FillButton = (
-  { label, isLoading = false, ...props }: FillButtonProps,
+  { label, isLoading = false, labelClassName, ...props }: FillButtonProps,
   ref: any
 ) => {
   return (
@@ -31,7 +32,7 @@ const FillButton = (
       ) : (
         <Text
           style={{ fontFamily: "Nunito_600SemiBold" }}
-          className="text-white text-base"
+          className={twMerge("text-white text-base", labelClassName)}
         >
           {label}
         </Text>

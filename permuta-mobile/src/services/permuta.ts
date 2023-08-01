@@ -8,6 +8,7 @@ import {
   IItem,
   ILoginPayload,
   IRegisterPayload,
+  IUser,
 } from "@/types";
 import { ObjectToQueryParams } from "@/utils";
 
@@ -20,6 +21,7 @@ export const usePermuta = () => {
       limit?: string | number;
       page?: string | number;
       category_id?: string;
+      auctions?: boolean;
     }) => {
       const query = ObjectToQueryParams(params);
       return authAxios.get<IGetAllItemsResponse>(`/v1/items?${query}`);
@@ -50,6 +52,9 @@ export const usePermuta = () => {
   };
 
   const auth = {
+    getActiveUserDetails: async () => {
+      return authAxios.get<IUser>("/v1/users/me").then((res) => res.data);
+    },
     getIsUsernameValid: async (username: string) => {
       return authAxios
         .get<{

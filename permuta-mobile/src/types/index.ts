@@ -20,6 +20,20 @@ export type IRegisterPayload = {
   gender?: "MALE" | "FEMALE" | "OTHER";
 };
 
+export type IUser = {
+  id: string;
+  username: string;
+  email: string;
+  full_name: string;
+  phone_number: string;
+  image_url: null | string;
+  created_at: Date;
+  updated_at: Date;
+  hostel_id: string;
+  gender: "MALE" | "FEMALE" | "OTHER";
+  hostel: IHostel;
+};
+
 export type IItem = {
   id: string;
   name: string;

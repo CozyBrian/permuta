@@ -1,5 +1,5 @@
 export function ObjectToQueryParams(
-  obj: Record<string, string | undefined | number>
+  obj: Record<string, string | undefined | number | boolean>
 ): string {
   for (let key in obj) {
     if (obj[key] === undefined) {
