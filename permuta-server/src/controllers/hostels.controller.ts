@@ -9,7 +9,7 @@ import {
   getOneHostel,
   getTotalHostelCount,
   isHostelExists,
-} from "../services/hostels.services";
+} from "../services/hostels.service";
 import { ZodError } from "zod";
 
 export const getHostels = async (

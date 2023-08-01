@@ -3,6 +3,7 @@ import {
   item_status as item_status_enum,
 } from "@prisma/client";
 import { z } from "zod";
+import { auctionsCreateSchema } from "./auctions.schema";
 
 export const itemsSchema = z.object({
   id: z.string().uuid(),
@@ -32,11 +33,15 @@ export const itemsSchema = z.object({
   updated_at: z.date(),
 });
 
-export const itemsCreateSchema = itemsSchema.omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const itemsCreateSchema = itemsSchema
+  .omit({
+    id: true,
+    created_at: true,
+    updated_at: true,
+  })
+  .extend({
+    auction: auctionsCreateSchema.optional(),
+  });
 
 export const itemsUpdateSchema = itemsCreateSchema.partial().extend({
   id: z.string().uuid(),

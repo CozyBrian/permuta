@@ -72,11 +72,24 @@ export const getOneItem = async (id: string) => {
 };
 
 export const createItem = async (data: IItemCreate) => {
-  return await Prisma.items.create({
-    data: {
-      ...data,
-    },
-  });
+  if (data.auction) {
+    return await Prisma.items.create({
+      data: {
+        ...data,
+        auctions: {
+          create: {
+            ...data.auction,
+          },
+        },
+      },
+    });
+  } else {
+    return await Prisma.items.create({
+      data: {
+        ...data,
+      },
+    });
+  }
 };
 
 export const updateItem = async (data: IItemUpdate) => {
