@@ -83,3 +83,25 @@ export const getUserDetails = async (
     return res.status(500).send({ error });
   }
 };
+
+export const getSignInUserDetails = async (req: Request, res: Response) => {
+  console.log(req.user);
+  try {
+    const { id } = req.user!;
+
+    if (!(await isUserExists({ id }))) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    const user = await getUserById(id, {
+      hostel: true,
+    });
+
+    return res.status(200).json(user);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).send(error);
+    }
+    return res.status(500).send({ error });
+  }
+};
