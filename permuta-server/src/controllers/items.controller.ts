@@ -29,7 +29,7 @@ export const getAllItems = async (
   const query = req.query;
 
   try {
-    const { limit, page, user_id, category_id, condition, search } =
+    const { limit, page, user_id, auctions, category_id, condition, search } =
       await getItemsQuerySchema.parseAsync(query);
 
     const items = await getManyItems(
@@ -41,6 +41,13 @@ export const getAllItems = async (
         seller_id: user_id,
         category_id,
         condition,
+        auctions: JSON.parse(`${auctions}`)
+          ? {
+              isNot: null,
+            }
+          : {
+              is: null,
+            },
         name: { contains: search, mode: "insensitive" },
       },
     );

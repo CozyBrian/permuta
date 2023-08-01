@@ -51,6 +51,7 @@ export const getItemsQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).default(10),
   page: z.coerce.number().int().min(1).default(1),
   user_id: z.string().uuid().optional(),
+  auctions: z.string().optional(),
   category_id: z.string().uuid().optional(),
   condition: z.nativeEnum(condition_enum).optional(),
   search: z.string().optional(),
