@@ -81,7 +81,7 @@ const Dropdown = ({
   };
 
   return (
-    <View>
+    <>
       <Pressable
         onPress={() => setisDropdownOpen(!isDropdownOpen)}
         ref={dropdownRef}
@@ -180,7 +180,7 @@ const Dropdown = ({
           )}
         </View>
       </Modal>
-    </View>
+    </>
   );
 };
 
