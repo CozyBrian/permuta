@@ -13,22 +13,23 @@ export default function Home() {
   const insets = useSafeAreaInsets();
   const { items } = usePermuta();
 
-  const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery({
-    queryKey: ["items"],
-    queryFn: ({ pageParam = 1 }) => items.getAllItems({ page: pageParam }),
-    retry(failureCount, error) {
-      if ((error as AxiosError).status === 404) return false;
-      else if (failureCount < 3) return true;
-      else return false;
-    },
-    getNextPageParam: (lastPage) => {
-      if (lastPage.data.page < lastPage.data.totalPages) {
-        return lastPage.data.page + 1;
-      }
-      return false;
-    },
-    keepPreviousData: true,
-  });
+  const { data, fetchNextPage, isLoading, hasNextPage, refetch } =
+    useInfiniteQuery({
+      queryKey: ["items"],
+      queryFn: ({ pageParam = 1 }) => items.getAllItems({ page: pageParam }),
+      retry(failureCount, error) {
+        if ((error as AxiosError).status === 404) return false;
+        else if (failureCount < 3) return true;
+        else return false;
+      },
+      getNextPageParam: (lastPage) => {
+        if (lastPage.data.page < lastPage.data.totalPages) {
+          return lastPage.data.page + 1;
+        }
+        return false;
+      },
+      keepPreviousData: true,
+    });
 
   return (
     <View className="flex-1 bg-permuta-background">
@@ -61,7 +62,7 @@ export default function Home() {
           refreshControl={
             <RefreshControl
               refreshing={isLoading}
-              onRefresh={() => console.log("refreshing")}
+              onRefresh={() => refetch()}
             />
           }
         />

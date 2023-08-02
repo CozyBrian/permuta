@@ -4,6 +4,7 @@ import { HeaderWithBack } from "@/components/layout/header";
 import ProfileSection from "@/components/profile/ProfileSection";
 import ProfileItems from "@/components/profile/profile-items-section";
 import { FillButton } from "@/components/buttons";
+import { router } from "expo-router";
 
 export default function MyProfile() {
   return (
@@ -19,7 +20,10 @@ export default function MyProfile() {
           />
         </View>
         <View className="flex my-1">
-          <FillButton label="Add Item" />
+          <FillButton
+            onPress={() => router.push("/(main)/add_item")}
+            label="Add Item"
+          />
         </View>
         <ProfileItems />
       </View>
