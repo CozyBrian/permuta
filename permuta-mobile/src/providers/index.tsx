@@ -13,6 +13,7 @@ import { NunitoSans_700Bold } from "@expo-google-fonts/nunito-sans";
 import * as SplashScreen from "expo-splash-screen";
 import InitializerProvider from "./InitializerProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ClickOutsideProvider } from "react-native-click-outside";
 
 const queryClient = new QueryClient();
 
@@ -40,7 +41,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <InitializerProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <AuthProvider>
+              <ClickOutsideProvider>{children}</ClickOutsideProvider>
+            </AuthProvider>
           </InitializerProvider>
         </QueryClientProvider>
       </Provider>

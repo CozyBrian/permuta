@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo-google-fonts/nunito": "^0.2.3",
     "@expo-google-fonts/nunito-sans": "^0.2.3",
+    "@react-native-community/datetimepicker": "7.2.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@shopify/flash-list": "1.4.3",
     "@tanstack/react-query": "^4.32.0",
@@ -22,7 +23,9 @@
     "expo-linking": "~5.0.2",
     "expo-router": "2.0.0",
     "expo-secure-store": "~12.3.1",
+    "expo-splash-screen": "~0.20.4",
     "expo-status-bar": "~1.6.0",
+    "expo-system-ui": "~2.4.0",
     "lucide-react-native": "^0.262.0",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
@@ -36,8 +39,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-redux": "^8.1.1",
-    "tailwind-merge": "^1.14.0",
-    "expo-splash-screen": "~0.20.4"
+    "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

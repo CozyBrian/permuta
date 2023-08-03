@@ -14,6 +14,7 @@ import classNames from "classnames";
 import ControlledInput from "@/components/inputs/controlledInput";
 import Dropdown from "@/components/inputs/Dropdown";
 import { Platform } from "react-native";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 type IItemCreate = {
   name: string;
@@ -55,24 +56,28 @@ export default function AddItem() {
               value={isAuction}
             />
           </View>
-          <View className="h-11 w-full flex-row justify-between items-center">
-            <ControlledInput
-              control={control}
-              name={isAuction ? "starting_price" : "price"}
-              placeholder={isAuction ? "Starting Price" : "Price"}
-              keyboardType="numeric"
-              style={{ width: "48%" }}
-              errors={errors}
-            />
-            <ControlledInput
-              control={control}
-              name={isAuction ? "starting_price" : "price"}
-              placeholder={isAuction ? "Starting Price" : "Price"}
-              style={{ width: "48%" }}
-              keyboardType="numeric"
-              errors={errors}
-            />
-          </View>
+          {isAuction && (
+            <>
+              <View className="w-full flex-row items-center justify-between">
+                <Text
+                  style={{ fontFamily: FONT.Nunito.Medium }}
+                  className="text-[#667085] text-base"
+                >
+                  Starting Time
+                </Text>
+                <RNDateTimePicker value={new Date()} mode="datetime" />
+              </View>
+              <View className="w-full flex-row items-center justify-between">
+                <Text
+                  style={{ fontFamily: FONT.Nunito.Medium }}
+                  className="text-[#667085] text-base"
+                >
+                  Ending Time
+                </Text>
+                <RNDateTimePicker value={new Date()} mode="datetime" />
+              </View>
+            </>
+          )}
           <ControlledInput
             control={control}
             name={isAuction ? "starting_price" : "price"}
@@ -89,10 +94,18 @@ export default function AddItem() {
             multiline
           />
           <View>
-            <Dropdown items={[]} placeholder="Category" />
+            <Dropdown
+              items={[
+                { label: "Electronics", value: "2342-few34-3234r3-2r32" },
+              ]}
+              placeholder="Category"
+            />
           </View>
           <View>
-            <Dropdown items={[]} placeholder="Condition" />
+            <Dropdown
+              items={[{ label: "New", value: "NEW" }]}
+              placeholder="Condition"
+            />
           </View>
         </View>
       </ScrollView>
