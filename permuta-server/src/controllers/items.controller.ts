@@ -32,6 +32,17 @@ export const getAllItems = async (
     const { limit, page, user_id, auctions, category_id, condition, search } =
       await getItemsQuerySchema.parseAsync(query);
 
+    const auctionFilter = () =>
+      auctions
+        ? JSON.parse(`${auctions}`)
+          ? {
+              isNot: null,
+            }
+          : {
+              is: null,
+            }
+        : undefined;
+
     const items = await getManyItems(
       {
         limit,
@@ -41,13 +52,7 @@ export const getAllItems = async (
         seller_id: user_id,
         category_id,
         condition,
-        auctions: JSON.parse(`${auctions}`)
-          ? {
-              isNot: null,
-            }
-          : {
-              is: null,
-            },
+        auctions: auctionFilter(),
         name: { contains: search, mode: "insensitive" },
       },
     );

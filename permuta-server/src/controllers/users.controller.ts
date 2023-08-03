@@ -85,7 +85,6 @@ export const getUserDetails = async (
 };
 
 export const getSignInUserDetails = async (req: Request, res: Response) => {
-  console.log(req.user);
   try {
     const { id } = req.user!;
 
