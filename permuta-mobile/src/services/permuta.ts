@@ -30,6 +30,9 @@ export const usePermuta = () => {
     getItemDetails: async (itemId: string) => {
       return authAxios.get<IItem>(`/v1/items/${itemId}/`);
     },
+    postItem: async (item: any) => {
+      return authAxios.post<IItem>(`/v1/items/`, item);
+    },
   };
 
   const category = {
