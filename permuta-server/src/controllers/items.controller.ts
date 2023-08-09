@@ -120,8 +120,12 @@ export const postItem = async (
   const body = req.body;
 
   try {
-    const newItem = await itemsCreateSchema.parseAsync(body);
+    const resultItem = await itemsCreateSchema.parseAsync(body);
 
+    const newItem = {
+      ...resultItem,
+      seller_id: req.user?.id!,
+    };
     const item = await createItem(newItem);
 
     return res.status(201).json(item);
