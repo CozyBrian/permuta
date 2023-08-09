@@ -91,3 +91,23 @@ type GetAllExtended<T> = GetAll<T> & {
 export type IGetAllItemsResponse = GetAllExtended<IItemsMin>;
 
 export type IGetAllHostelsResponse = GetAllExtended<IHostel>;
+
+export type IItemCreate = {
+  name: string;
+  description: string;
+  price: number;
+  category_id: string;
+  seller_id: string;
+  condition: "NEW" | "SLIGHTLY_USED" | "USED";
+  image_url?: string | null | undefined;
+  status?: "INSTOCK" | "OUT_OF_STOCK" | "UNAVAILABLE" | undefined;
+};
+
+export type IAuctionCreate = {
+  seller_id: string;
+  item_id: string;
+  starting_price: number;
+  start_time: Date;
+  end_time: Date;
+  status?: "OPEN" | "CLOSE" | undefined;
+};

@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  TextInput,
   Switch,
   ScrollView,
   KeyboardAvoidingView,
@@ -9,27 +8,43 @@ import {
 import React, { useState } from "react";
 import { HeaderWithBack } from "@/components/layout/header";
 import { FONT } from "@/assets/font";
-import { Controller, useForm } from "react-hook-form";
-import classNames from "classnames";
+import { useForm } from "react-hook-form";
 import ControlledInput from "@/components/inputs/controlledInput";
 import Dropdown from "@/components/inputs/Dropdown";
-import { Platform } from "react-native";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-
-type IItemCreate = {
-  name: string;
-  price: number;
-  starting_price: number;
-  description: string;
-};
+import { IAuctionCreate, IItemCreate } from "@/types";
+import { FillButton } from "@/components/buttons";
+import CategoryDropdown from "@/components/inputs/categoryDropdown";
+import { usePermuta } from "@/services/permuta";
+import { AxiosError } from "axios";
 
 export default function AddItem() {
+  const { items } = usePermuta();
   const [isAuction, setIsAuction] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     control,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors },
-  } = useForm<IItemCreate>();
+  } = useForm<IItemCreate & IAuctionCreate>();
+
+  const onSubmit = async (data: IItemCreate & IAuctionCreate) => {
+    console.log(data);
+
+    try {
+      const res = await items.postItem({ ...data });
+      console.log(res);
+    } catch (error) {
+      const err = error as AxiosError;
+
+      console.error(err.response?.data);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -94,21 +109,32 @@ export default function AddItem() {
             multiline
           />
           <View>
-            <Dropdown
-              items={[
-                { label: "Electronics", value: "2342-few34-3234r3-2r32" },
-              ]}
-              placeholder="Category"
+            <CategoryDropdown
+              onChange={(event) => setValue("category_id", event.value)}
             />
           </View>
           <View>
             <Dropdown
-              items={[{ label: "New", value: "NEW" }]}
+              items={[
+                { label: "New", value: "NEW" },
+                { label: "Slightly Used", value: "SLIGHTLY_USED" },
+                { label: "Used", value: "USED" },
+              ]}
+              onChange={(event) =>
+                setValue("condition", event.value as IItemCreate["condition"])
+              }
               placeholder="Condition"
             />
           </View>
         </View>
       </ScrollView>
+      <View className="absolute w-full bottom-10 px-4">
+        <FillButton
+          onPress={handleSubmit(onSubmit)}
+          label="Complete"
+          isLoading={isLoading}
+        />
+      </View>
     </KeyboardAvoidingView>
   );
 }

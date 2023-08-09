@@ -1,10 +1,11 @@
 import { PERMUTA_AUTH } from "@/constants";
-import { IRegisterPayload } from "@/types";
+import { IRegisterPayload, IUser } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import * as SecureStore from "expo-secure-store";
 
 type initialStateType = {
   isAuthenticated: boolean;
+  user: IUser | null;
   accessToken: string | null;
   refreshToken: string | null;
   registerData: IRegisterPayload;
@@ -12,6 +13,7 @@ type initialStateType = {
 
 const initialState: initialStateType = {
   isAuthenticated: false,
+  user: null,
   accessToken: null,
   refreshToken: null,
   registerData: {
@@ -36,12 +38,14 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.isAuthenticated = action.payload.isAuthenticated;
+      state.user = action.payload.user;
       SecureStore.setItemAsync(PERMUTA_AUTH, JSON.stringify(action.payload));
     },
     Logout(state) {
       state.accessToken = null;
       state.refreshToken = null;
       state.isAuthenticated = false;
+      state.user = null;
       SecureStore.deleteItemAsync(PERMUTA_AUTH);
     },
     setRegisterData(state, action: PayloadAction<Partial<IRegisterPayload>>) {

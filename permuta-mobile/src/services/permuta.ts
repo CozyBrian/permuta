@@ -6,6 +6,7 @@ import {
   IGetAllHostelsResponse,
   IGetAllItemsResponse,
   IItem,
+  IItemCreate,
   ILoginPayload,
   IRegisterPayload,
   IUser,
@@ -30,14 +31,15 @@ export const usePermuta = () => {
     getItemDetails: async (itemId: string) => {
       return authAxios.get<IItem>(`/v1/items/${itemId}/`);
     },
-    postItem: async (item: any) => {
+    postItem: async (item: IItemCreate) => {
       return authAxios.post<IItem>(`/v1/items/`, item);
     },
   };
 
   const category = {
     getAllCategories: async () => {
-      return authAxios.get<ICategory[]>("/v1/categories/");
+      const { data } = await authAxios.get<ICategory[]>("/v1/categories/");
+      return data;
     },
   };
 
@@ -56,7 +58,8 @@ export const usePermuta = () => {
 
   const auth = {
     getActiveUserDetails: async () => {
-      return authAxios.get<IUser>("/v1/users/me").then((res) => res.data);
+      const { data } = await authAxios.get<IUser>("/v1/users/me");
+      return data;
     },
     getIsUsernameValid: async (username: string) => {
       return authAxios

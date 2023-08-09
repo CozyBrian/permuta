@@ -27,7 +27,7 @@ const CategoryBar = ({
         <LoadingSpinner />
       ) : (
         <FlatList
-          data={data?.data}
+          data={data}
           horizontal
           renderItem={({ item }) => (
             <CategoryItem

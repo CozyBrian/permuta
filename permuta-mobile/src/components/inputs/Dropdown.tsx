@@ -1,8 +1,9 @@
+import { SCREEN_HEIGHT } from "@/constants";
 import { useKeyboardStatus } from "@/hooks/useKeyboardStatus";
 import { FlashList } from "@shopify/flash-list";
 import classNames from "classnames";
 import { ChevronDown } from "lucide-react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   Modal,
   Pressable,
@@ -48,18 +49,32 @@ const Dropdown = ({
     w: 0,
     h: 0,
   });
+  const [ModalDimension, setModalDimension] = useState({
+    x: 0,
+    y: 0,
+    w: 0,
+    h: 0,
+  });
   const dropdownRef = useRef<View>(null);
   const modalRef = useClickOutside<View>(() => setisDropdownOpen(false));
 
   const { isKeyboardVisible, metrics } = useKeyboardStatus();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dropdownRef.current?.measureInWindow((x, y, w, h) => {
       const value = { x, y, w, h };
       setDropdownDimension(value);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dropdownRef.current]);
+
+  useLayoutEffect(() => {
+    modalRef.current?.measureInWindow((x, y, w, h) => {
+      const value = { x, y, w, h };
+      setModalDimension(value);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalRef.current]);
 
   useEffect(() => {
     if (SelectedItem !== null) {
@@ -69,7 +84,19 @@ const Dropdown = ({
 
   const top = () => {
     const { y, h } = dropdownDimension;
+
     const keyboardHeight = metrics?.height ?? 216;
+
+    if (isSearchable) {
+      if (y + 220 + 44 > SCREEN_HEIGHT) {
+        return y - 228;
+      }
+    } else {
+      if (y + 44 > SCREEN_HEIGHT) {
+        return y - 44;
+      }
+    }
+
     if (!isKeyboardVisible) {
       return y + h + 12;
     } else {
@@ -79,6 +106,44 @@ const Dropdown = ({
       return y + h + 12;
     }
   };
+
+  // const computeModalStyle = () => {
+  //   const { y: dropdownPosY, h: dropdownHeight } = dropdownDimension;
+  //   const { h: modalHeight } = ModalDimension;
+  //   // console.log("modelD", ModalDimension);
+  //   // console.log("dropdD", dropdownDimension);
+
+  //   console.log(dropdownPosY + modalHeight + 44 > SCREEN_HEIGHT);
+  //   console.log("dy", dropdownPosY);
+  //   console.log("mh", modalHeight);
+  //   console.log("com", dropdownPosY + modalHeight + 44);
+
+  //   console.log(SCREEN_HEIGHT - 64);
+
+  //   if (dropdownPosY + modalHeight + 44 > SCREEN_HEIGHT - 64) {
+  //     return {
+  //       width: dropdownDimension.w,
+  //       botton: 0,
+  //       left: dropdownDimension.x,
+  //     };
+  //   } else {
+  //     return {
+  //       width: dropdownDimension.w,
+  //       top: dropdownPosY + dropdownHeight + 12,
+  //       left: dropdownDimension.x,
+  //     };
+  //   }
+
+  //   // if (isSearchable) {
+  //   //   if (y + 220 + 44 > SCREEN_HEIGHT) {
+  //   //     return y - 228;
+  //   //   }
+  //   // } else {
+  //   //   if (y + 44 > SCREEN_HEIGHT) {
+  //   //     return y - 44;
+  //   //   }
+  //   // }
+  // };
 
   return (
     <>
