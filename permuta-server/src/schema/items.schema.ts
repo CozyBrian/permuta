@@ -3,7 +3,6 @@ import {
   item_status as item_status_enum,
 } from "@prisma/client";
 import { z } from "zod";
-import { auctionsCreateSchema } from "./auctions.schema";
 
 export const itemsSchema = z.object({
   id: z.string().uuid(),
@@ -40,7 +39,14 @@ export const itemsCreateSchema = itemsSchema
     updated_at: true,
   })
   .extend({
-    auction: auctionsCreateSchema.optional(),
+    auction: z
+      .object({
+        seller_id: z.string().uuid(),
+        starting_price: z.number(),
+        start_time: z.date().or(z.string()),
+        end_time: z.date().or(z.string()),
+      })
+      .optional(),
   });
 
 export const itemsUpdateSchema = itemsCreateSchema.partial().extend({

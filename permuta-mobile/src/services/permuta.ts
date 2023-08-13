@@ -36,10 +36,6 @@ export const usePermuta = () => {
     },
   };
 
-  const auctions = {
-    postAuction: async (itemId: string, amount: number) => {},
-  };
-
   const category = {
     getAllCategories: async () => {
       const { data } = await authAxios.get<ICategory[]>("/v1/categories/");

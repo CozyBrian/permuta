@@ -130,6 +130,8 @@ export const postItem = async (
 
     return res.status(201).json(item);
   } catch (error) {
+    console.error(error);
+
     if (error instanceof ZodError) {
       return res.status(400).send(error);
     }
