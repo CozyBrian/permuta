@@ -1,5 +1,6 @@
 import { FONT } from "@/assets/font";
 import { IItemsMin } from "@/types";
+import classNames from "classnames";
 import { router } from "expo-router";
 import { Heart } from "lucide-react-native";
 import React from "react";
@@ -9,6 +10,8 @@ type ItemCardProps = {
   item: IItemsMin;
 };
 const ItemCard = ({ item }: ItemCardProps) => {
+  const isAuction = item.auctions !== null;
+
   return (
     <Pressable
       onPress={() => router.push(`/(main)/item/${item.id}`)}
@@ -28,10 +31,15 @@ const ItemCard = ({ item }: ItemCardProps) => {
         </Text>
         <View className="pt-1 flex-row items-end justify-between">
           <Text
-            style={{ fontFamily: FONT.Nunito.Medium }}
-            className="text-lg text-permuta-text"
+            style={{
+              fontFamily: isAuction ? FONT.Nunito.Bold : FONT.Nunito.Medium,
+            }}
+            className={classNames(
+              "text-lg",
+              isAuction ? "text-permuta-primaryDark" : "text-permuta-text"
+            )}
           >
-            GH₵{item.price.toFixed(2)}
+            {isAuction ? "ON AUCTION" : `GH₵${item.price.toFixed(2)}`}
           </Text>
           <Heart size={24} color="#7D7D7D" />
         </View>

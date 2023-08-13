@@ -55,7 +55,9 @@ export type IItem = {
       name: string;
     };
   };
-  auctions: null;
+  auctions: {
+    id: string;
+  };
 };
 
 export type ICategory = {
