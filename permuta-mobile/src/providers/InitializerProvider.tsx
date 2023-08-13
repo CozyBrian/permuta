@@ -6,6 +6,8 @@ import * as SecureStore from "expo-secure-store";
 import * as SplashScreen from "expo-splash-screen";
 import { View } from "react-native";
 import SplashLoader from "@/components/layout/splashloader";
+import axios from "@/lib/axios";
+import { IUser } from "@/types";
 
 const InitializerProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
@@ -20,6 +22,12 @@ const InitializerProvider = ({ children }: { children: React.ReactNode }) => {
         if (auth) {
           const parsedAuth = JSON.parse(auth);
           dispatch(action.auth.setAuth(parsedAuth));
+          const { data } = await axios.get<IUser>("/v1/users/me", {
+            headers: {
+              Authorization: `Bearer ${parsedAuth.accessToken}`,
+            },
+          });
+          dispatch(action.auth.setUser(data));
         }
       } catch (e) {
         console.warn("async?", e);

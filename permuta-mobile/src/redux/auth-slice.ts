@@ -33,13 +33,15 @@ const authSlice = createSlice({
   reducers: {
     setAuth(
       state,
-      action: PayloadAction<Omit<initialStateType, "registerData">>
+      action: PayloadAction<Omit<initialStateType, "registerData" | "user">>
     ) {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.isAuthenticated = action.payload.isAuthenticated;
-      state.user = action.payload.user;
-      SecureStore.setItemAsync(PERMUTA_AUTH, JSON.stringify(action.payload));
+      SecureStore.setItemAsync(PERMUTA_AUTH, JSON.stringify(state));
+    },
+    setUser(state, action: PayloadAction<IUser | null>) {
+      state.user = action.payload;
     },
     Logout(state) {
       state.accessToken = null;

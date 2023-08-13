@@ -4,6 +4,9 @@ import {
   Switch,
   ScrollView,
   KeyboardAvoidingView,
+  Image,
+  Pressable,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { HeaderWithBack } from "@/components/layout/header";
@@ -17,31 +20,80 @@ import { FillButton } from "@/components/buttons";
 import CategoryDropdown from "@/components/inputs/categoryDropdown";
 import { usePermuta } from "@/services/permuta";
 import { AxiosError } from "axios";
+import * as ImagePicker from "expo-image-picker";
+import { useAppSelector } from "@/hooks";
+import { router } from "expo-router";
 
 export default function AddItem() {
   const { items } = usePermuta();
+  const { user } = useAppSelector((state) => state.auth);
   const [isAuction, setIsAuction] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState<string | null>(null);
   const {
     control,
     handleSubmit,
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<IItemCreate & IAuctionCreate>();
+  } = useForm<IItemCreate & IAuctionCreate>({
+    defaultValues: {
+      start_time: new Date(),
+      end_time: new Date(),
+    },
+  });
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [2, 1.2],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const onSubmit = async (data: IItemCreate & IAuctionCreate) => {
     console.log(data);
-
+    setIsLoading(true);
     try {
-      const res = await items.postItem({ ...data });
-      console.log(res);
+      if (isAuction) {
+        const res = await items.postItem({
+          ...data,
+          price: parseInt(data.starting_price as string),
+          seller_id: user?.id!,
+          auction: {
+            ...data,
+            seller_id: user?.id!,
+            starting_price: parseInt(data.starting_price as string),
+            start_time: new Date(data.start_time),
+            end_time: new Date(data.end_time),
+          },
+        });
+        console.log(res);
+      } else {
+        const res = await items.postItem({
+          ...data,
+          price: parseInt(data.price as string),
+          seller_id: user?.id!,
+        });
+        console.log(res);
+      }
+      Alert.alert("Success ✅", `${data.name} successfully added`, [
+        { text: "OK", onPress: () => router.back() },
+      ]);
     } catch (error) {
       const err = error as AxiosError;
 
       console.error(err.response?.data);
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -53,7 +105,17 @@ export default function AddItem() {
     >
       <HeaderWithBack title="New Item" />
       <ScrollView className="pt-4 px-4 flex-1">
-        <View className="w-full h-[194px] bg-permuta-primary rounded-2xl"></View>
+        <Pressable
+          onPress={pickImage}
+          className="w-full h-[194px] bg-permuta-primary rounded-2xl"
+        >
+          {image && (
+            <Image
+              source={{ uri: image }}
+              className="w-full h-full rounded-2xl"
+            />
+          )}
+        </Pressable>
         <View className="flex-1 flex flex-col pt-[10px] gap-y-2">
           <Text style={{ fontFamily: FONT.NunitoSans.Bold }}>Details</Text>
           <ControlledInput
@@ -80,7 +142,11 @@ export default function AddItem() {
                 >
                   Starting Time
                 </Text>
-                <RNDateTimePicker value={new Date()} mode="datetime" />
+                <RNDateTimePicker
+                  value={getValues("start_time")}
+                  onChange={(event, date) => setValue("start_time", date!)}
+                  mode="datetime"
+                />
               </View>
               <View className="w-full flex-row items-center justify-between">
                 <Text
@@ -89,7 +155,11 @@ export default function AddItem() {
                 >
                   Ending Time
                 </Text>
-                <RNDateTimePicker value={new Date()} mode="datetime" />
+                <RNDateTimePicker
+                  value={getValues("end_time")}
+                  onChange={(event, date) => setValue("end_time", date!)}
+                  mode="datetime"
+                />
               </View>
             </>
           )}
