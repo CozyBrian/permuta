@@ -16,6 +16,7 @@ import {
   updateItem,
 } from "../services/items.services";
 import { ZodError } from "zod";
+import { UploadToCloudinary } from "../services/cloudinary/upload";
 
 export const getAllItems = async (
   req: Request<
@@ -120,10 +121,19 @@ export const postItem = async (
   const body = req.body;
 
   try {
-    const resultItem = await itemsCreateSchema.parseAsync(body);
+    const resultItem = await itemsCreateSchema.parseAsync({
+      ...body,
+      price: Number(body.price),
+    });
+
+    const image_url = await UploadToCloudinary({
+      filepath: req.file?.path,
+      folder: "items",
+    });
 
     const newItem = {
       ...resultItem,
+      image_url,
       seller_id: req.user?.id!,
     };
     const item = await createItem(newItem);
