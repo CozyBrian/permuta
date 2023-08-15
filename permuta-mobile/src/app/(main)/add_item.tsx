@@ -30,6 +30,11 @@ export default function AddItem() {
   const [isAuction, setIsAuction] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState<string | null>(null);
+  const [imageData, setImageData] = useState<{
+    uri: string;
+    name: string | undefined;
+    type: string;
+  }>();
   const {
     control,
     handleSubmit,
@@ -54,14 +59,31 @@ export default function AddItem() {
 
     console.log(result);
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+    if (result.canceled) {
+      return;
     }
+
+    const image = result.assets[0];
+    let localUri = image.uri;
+    setImage(localUri);
+    let filename = localUri.split("/").pop();
+
+    let match = /\.(\w+)$/.exec(filename!);
+    let type = match ? `image/${match[1]}` : `image`;
+
+    let formData = new FormData();
+
+    const formImageData = { uri: localUri, name: filename, type };
+    setImageData(formImageData);
+    formData.append("image", formImageData as any);
+    setImage(image.uri);
   };
 
   const onSubmit = async (data: IItemCreate & IAuctionCreate) => {
-    console.log(data);
     setIsLoading(true);
+
+    const formData = new FormData();
+
     try {
       if (isAuction) {
         const res = await items.postItem({
@@ -78,11 +100,23 @@ export default function AddItem() {
         });
         console.log(res);
       } else {
-        const res = await items.postItem({
+        const newItem = {
           ...data,
           price: parseInt(data.price as string),
           seller_id: user?.id!,
-        });
+        } as const;
+
+        for (const key in newItem) {
+          if (newItem.hasOwnProperty(key)) {
+            formData.append(key, (newItem as any)[key]);
+          }
+        }
+        if (imageData) {
+          formData.append("image", imageData as any);
+        }
+
+        const res = await items.postItemForm(formData);
+
         console.log(res);
       }
       Alert.alert("Success ✅", `${data.name} successfully added`, [

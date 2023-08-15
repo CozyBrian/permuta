@@ -34,6 +34,13 @@ export const usePermuta = () => {
     postItem: async (item: IItemCreate) => {
       return authAxios.post<IItem>(`/v1/items/`, item);
     },
+    postItemForm: async (item: FormData) => {
+      return authAxios.post<IItem>(`/v1/items/`, item, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    },
   };
 
   const category = {
