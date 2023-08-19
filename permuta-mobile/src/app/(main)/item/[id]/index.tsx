@@ -1,6 +1,7 @@
 import { FONT } from "@/assets/font";
 import { FillButton } from "@/components/buttons";
 import IconButton from "@/components/buttons/IconButton";
+import NumberInput from "@/components/inputs/numberInput";
 import LoadingSpinner from "@/components/layout/loadingSpinner";
 import { usePermuta } from "@/services/permuta";
 import { useQuery } from "@tanstack/react-query";
@@ -108,21 +109,7 @@ export default function ItemDetails() {
             </View>
           </View>
           <View style={{ marginBottom: insets.bottom }} className="p-4">
-            {isAuction && (
-              <View className="flex-row -mx-1 mb-2">
-                <IconButton
-                  className="flex-1 mx-1 bg-[#EEEEEE] border-[#EEEEEE]"
-                  Icon={Minus}
-                />
-                <View className="h-10 flex-[2] items-center justify-center mx-1 border rounded-lg">
-                  <Text className="text-xl text-permuta-text">₵638.99</Text>
-                </View>
-                <IconButton
-                  className="flex-1 mx-1 bg-[#EEEEEE] border-[#EEEEEE]"
-                  Icon={Plus}
-                />
-              </View>
-            )}
+            {isAuction && <NumberInput />}
             <FillButton
               onPress={() => {
                 if (isAuction) {
