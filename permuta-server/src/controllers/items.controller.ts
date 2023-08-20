@@ -136,7 +136,6 @@ export const postItem = async (
       image_url,
       seller_id: req.user?.id!,
     };
-    console.log("newItem", newItem);
 
     const item = await createItem(newItem);
 
