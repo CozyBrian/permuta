@@ -199,6 +199,7 @@ const Dropdown = ({
                       key={item.value}
                       onPress={() => {
                         setisDropdownOpen(false);
+                        onChange(item);
                         setSelectedItem(item);
                       }}
                       className={classNames(
