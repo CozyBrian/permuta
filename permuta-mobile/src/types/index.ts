@@ -42,8 +42,8 @@ export type IItem = {
   image_url: string | null;
   category_id: string;
   seller_id: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: Date | string;
+  updated_at: Date | string;
   condition: "NEW" | "USED" | "SLIGHTLY_USED";
   status: "INSTOCK" | "OUT_OF_STOCK" | "UNAVAILABLE";
   category: {
@@ -57,6 +57,12 @@ export type IItem = {
   };
   auctions: {
     id: string;
+    item_id: string;
+    seller_id: string;
+    starting_price: number;
+    start_time: Date | string;
+    end_time: Date | string;
+    status: "OPEN" | "CLOSE";
   };
 };
 

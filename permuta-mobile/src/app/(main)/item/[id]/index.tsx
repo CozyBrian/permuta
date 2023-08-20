@@ -4,13 +4,17 @@ import IconButton from "@/components/buttons/IconButton";
 import NumberInput from "@/components/inputs/numberInput";
 import LoadingSpinner from "@/components/layout/loadingSpinner";
 import { usePermuta } from "@/services/permuta";
+import socket from "@/services/socketIO";
+import { FormatcountDownDuration } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
 import { router, useSearchParams } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
+import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ItemDetails() {
+  const [currentUserBid, setCurrentUserBid] = useState(0);
   const insets = useSafeAreaInsets();
   const { id } = useSearchParams();
 
@@ -19,11 +23,32 @@ export default function ItemDetails() {
   const { data, isLoading } = useQuery({
     queryKey: ["items", id],
     queryFn: () => items.getItemDetails(id),
+    onSettled(data) {
+      if (data?.data?.auctions) {
+        setCurrentUserBid(data?.data?.auctions.starting_price + 5);
+      }
+    },
   });
 
   const item = data?.data;
 
   const isAuction = item?.auctions !== null;
+
+  useEffect(() => {
+    socket.on("AuctionEvent", (data) => {
+      if (data?.type === "bid") {
+        setCurrentUserBid(data?.bid);
+      }
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.emit("SubscribeAuction", item?.id);
+
+    return () => {
+      socket.emit("UnsubscribeAuction", item?.id);
+    };
+  }, [item?.id]);
 
   return (
     <View className="flex-1 bg-permuta-background">
@@ -82,7 +107,12 @@ export default function ItemDetails() {
                   <Text className="text-ellipsis leading-4 text-slate-500">
                     Time Remaining
                   </Text>
-                  <Text className="text-2xl text-permuta-text">1d 12h 3m</Text>
+                  <Text className="text-2xl text-permuta-text">
+                    {FormatcountDownDuration(
+                      new Date(),
+                      new Date(item?.auctions.end_time!)
+                    )}
+                  </Text>
                 </View>
                 <View className="items-end justify-between py-1">
                   <Text className="text-ellipsis leading-4 text-slate-500">
@@ -110,7 +140,13 @@ export default function ItemDetails() {
             </View>
           </View>
           <View style={{ marginBottom: insets.bottom }} className="p-4">
-            {isAuction && <NumberInput />}
+            {isAuction && (
+              <NumberInput
+                minValue={item?.auctions.starting_price! + 5}
+                value={currentUserBid}
+                onChange={setCurrentUserBid}
+              />
+            )}
             <FillButton
               onPress={() => {
                 if (isAuction) {

@@ -23,6 +23,7 @@ import { AxiosError } from "axios";
 import * as ImagePicker from "expo-image-picker";
 import { useAppSelector } from "@/hooks";
 import { router } from "expo-router";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function AddItem() {
   const { items } = usePermuta();
@@ -47,6 +48,8 @@ export default function AddItem() {
       end_time: new Date(),
     },
   });
+
+  const queryClient = useQueryClient();
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -86,7 +89,7 @@ export default function AddItem() {
 
     try {
       if (isAuction) {
-        const res = await items.postItem({
+        await items.postItem({
           ...data,
           price: parseInt(data.starting_price as string),
           seller_id: user?.id!,
@@ -98,7 +101,7 @@ export default function AddItem() {
             end_time: new Date(data.end_time),
           },
         });
-        console.log(res);
+        queryClient.invalidateQueries(["items", "auctions"]);
       } else {
         const newItem = {
           ...data,
@@ -115,10 +118,10 @@ export default function AddItem() {
           formData.append("image", imageData as any);
         }
 
-        const res = await items.postItemForm(formData);
-
-        console.log(res);
+        await items.postItemForm(formData);
+        queryClient.invalidateQueries(["items", "items"]);
       }
+      queryClient.invalidateQueries(["items"]);
       Alert.alert("Success ✅", `${data.name} successfully added`, [
         { text: "OK", onPress: () => router.back() },
       ]);
@@ -126,6 +129,10 @@ export default function AddItem() {
       const err = error as AxiosError;
 
       console.error(err.response?.data);
+      Alert.alert(
+        "Error ❌",
+        `${err.response?.data}` ?? "Something went wrong"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -214,7 +221,9 @@ export default function AddItem() {
           />
           <View>
             <CategoryDropdown
-              onChange={(event) => setValue("category_id", event.value)}
+              onChange={(event) => {
+                setValue("category_id", event.value);
+              }}
             />
           </View>
           <View>
