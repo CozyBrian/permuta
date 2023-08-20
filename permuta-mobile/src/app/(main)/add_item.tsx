@@ -39,7 +39,7 @@ export default function AddItem() {
     control,
     handleSubmit,
     setValue,
-    getValues,
+    watch,
     formState: { errors },
   } = useForm<IItemCreate & IAuctionCreate>({
     defaultValues: {
@@ -177,7 +177,7 @@ export default function AddItem() {
                   Starting Time
                 </Text>
                 <RNDateTimePicker
-                  value={getValues("start_time")}
+                  value={watch().start_time}
                   onChange={(event, date) => setValue("start_time", date!)}
                   mode="datetime"
                 />
@@ -190,7 +190,7 @@ export default function AddItem() {
                   Ending Time
                 </Text>
                 <RNDateTimePicker
-                  value={getValues("end_time")}
+                  value={watch().end_time}
                   onChange={(event, date) => setValue("end_time", date!)}
                   mode="datetime"
                 />

@@ -3,7 +3,7 @@ import { useKeyboardStatus } from "@/hooks/useKeyboardStatus";
 import { FlashList } from "@shopify/flash-list";
 import classNames from "classnames";
 import { ChevronDown } from "lucide-react-native";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import {
   Modal,
   Pressable,
@@ -22,7 +22,7 @@ type DropdownProps = {
     label: string;
     value: string;
   }[];
-  onChange?: (value: DropdownProps["items"][0]) => void;
+  onChange: (value: DropdownProps["items"][0]) => void;
   hasNextPage?: boolean;
   fetchNextPage?: (options?: any) => any;
   setSearchText?: (value: string) => void;
@@ -49,12 +49,12 @@ const Dropdown = ({
     w: 0,
     h: 0,
   });
-  const [ModalDimension, setModalDimension] = useState({
-    x: 0,
-    y: 0,
-    w: 0,
-    h: 0,
-  });
+  // const [ModalDimension, setModalDimension] = useState({
+  //   x: 0,
+  //   y: 0,
+  //   w: 0,
+  //   h: 0,
+  // });
   const dropdownRef = useRef<View>(null);
   const modalRef = useClickOutside<View>(() => setisDropdownOpen(false));
 
@@ -68,19 +68,20 @@ const Dropdown = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dropdownRef.current]);
 
-  useLayoutEffect(() => {
-    modalRef.current?.measureInWindow((x, y, w, h) => {
-      const value = { x, y, w, h };
-      setModalDimension(value);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalRef.current]);
+  // useLayoutEffect(() => {
+  //   modalRef.current?.measureInWindow((x, y, w, h) => {
+  //     const value = { x, y, w, h };
+  //     setModalDimension(value);
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [modalRef.current]);
 
-  useEffect(() => {
-    if (SelectedItem !== null) {
-      onChange?.(SelectedItem);
-    }
-  }, [SelectedItem, onChange]);
+  // useEffect(() => {
+  //   console.log("logged");
+  //   if (SelectedItem !== null) {
+  //     onChange?.(SelectedItem);
+  //   }
+  // }, [SelectedItem, onChange]);
 
   const top = () => {
     const { y, h } = dropdownDimension;
@@ -229,6 +230,7 @@ const Dropdown = ({
                   key={item.value}
                   onPress={() => {
                     setisDropdownOpen(false);
+                    onChange(item);
                     setSelectedItem(item);
                   }}
                   className={classNames(

@@ -6,7 +6,7 @@ import LoadingSpinner from "@/components/layout/loadingSpinner";
 import { usePermuta } from "@/services/permuta";
 import { useQuery } from "@tanstack/react-query";
 import { router, useSearchParams } from "expo-router";
-import { ChevronLeft, Minus, Plus } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import { Image, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -24,6 +24,7 @@ export default function ItemDetails() {
   const item = data?.data;
 
   const isAuction = item?.auctions !== null;
+
   return (
     <View className="flex-1 bg-permuta-background">
       <View
