@@ -4,6 +4,7 @@ require("module-alias/register");
 
 import http from "http";
 import app from "./app";
+import { SocketHandler, getSocketIO } from "./services/socketIO";
 
 const PORT = process.env.PORT || 3001;
 
@@ -14,6 +15,8 @@ async function startServer() {
     console.log(`${"-".repeat(16)}PERMUTA SERVER${"-".repeat(16)}`);
     console.log(`Listening on port ${PORT}`);
   });
+  const io = getSocketIO(server);
+  io.on("connection", SocketHandler);
 }
 
 startServer();

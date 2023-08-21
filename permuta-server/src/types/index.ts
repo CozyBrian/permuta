@@ -25,6 +25,7 @@ import {
   auctionsUpdateSchema,
   getAuctionParamsSchema,
 } from "../schema/auctions.schema";
+import { bidsCreateSchema, bidsSchema } from "../schema/bids.schema";
 
 export type IUser = z.infer<typeof userSchema>;
 export type IUserCreate = z.infer<typeof userCreateSchema>;
@@ -47,3 +48,6 @@ export type IAuction = z.infer<typeof auctionsSchema>;
 export type IAuctionCreate = z.infer<typeof auctionsCreateSchema>;
 export type IAuctionUpdate = z.infer<typeof auctionsUpdateSchema>;
 export type IAuctionParams = z.infer<typeof getAuctionParamsSchema>;
+
+export type IBid = z.infer<typeof bidsSchema>;
+export type IBidCreate = z.infer<typeof bidsCreateSchema>;
