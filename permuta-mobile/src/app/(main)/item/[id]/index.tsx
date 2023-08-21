@@ -3,29 +3,39 @@ import { FillButton } from "@/components/buttons";
 import IconButton from "@/components/buttons/IconButton";
 import NumberInput from "@/components/inputs/numberInput";
 import LoadingSpinner from "@/components/layout/loadingSpinner";
+import { useAppSelector } from "@/hooks";
 import { usePermuta } from "@/services/permuta";
 import socket from "@/services/socketIO";
+import { IAuctionEvent, IBid, IBidCreate } from "@/types";
 import { FormatcountDownDuration } from "@/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import classNames from "classnames";
 import { router, useSearchParams } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Alert, Image, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ItemDetails() {
-  const [currentUserBid, setCurrentUserBid] = useState(0);
+  const { user } = useAppSelector((state) => state.auth);
   const insets = useSafeAreaInsets();
   const { id } = useSearchParams();
+  const [currentUserBid, setCurrentUserBid] = useState(0);
+  const [currentBid, setCurrentBid] = useState<IBid | null>(null);
+  const [YourBid, setYourBid] = useState<null | IBid>(null);
 
-  const { items } = usePermuta();
+  const { items, bids } = usePermuta();
+
+  const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
     queryKey: ["items", id],
     queryFn: () => items.getItemDetails(id),
-    onSettled(data) {
-      if (data?.data?.auctions) {
-        setCurrentUserBid(data?.data?.auctions.starting_price + 5);
+    onSuccess(data) {
+      if (data.data.auctions !== null) {
+        setCurrentUserBid(data.data.auctions.starting_price + 5);
+      } else {
+        setCurrentUserBid(data.data.price);
       }
     },
   });
@@ -33,22 +43,58 @@ export default function ItemDetails() {
   const item = data?.data;
 
   const isAuction = item?.auctions !== null;
+  const auction = item?.auctions === null ? undefined : item?.auctions;
+
+  useQuery({
+    queryKey: ["bids", auction?.id],
+    enabled: isAuction && !!auction?.id,
+    queryFn: () => bids.getLatestAuctionBid(auction?.id!),
+    onSuccess(data) {
+      if (data) {
+        setCurrentBid(data);
+      }
+    },
+  });
+
+  useQuery({
+    queryKey: ["bids", auction?.id, user?.id],
+    enabled: isAuction && !!auction?.id && !!user?.id,
+    queryFn: () => bids.getUserLatestAuctionBid(auction?.id!),
+    onSuccess(data) {
+      if (data) {
+        setYourBid(data);
+      }
+    },
+  });
 
   useEffect(() => {
-    socket.on("AuctionEvent", (data) => {
-      if (data?.type === "bid") {
-        setCurrentUserBid(data?.bid);
+    socket.on("AuctionEvent", (data: IAuctionEvent) => {
+      if (data.type === "error") {
+        Alert.alert("Error", data.message);
+      }
+      if (data.type === "bid") {
+        setCurrentBid(data.bid);
+        if (data.bid.bidder_id === user?.id) {
+          setYourBid(data.bid);
+        }
+        setCurrentUserBid(data.bid.amount + 5);
       }
     });
-  }, [socket]);
-
-  useEffect(() => {
-    socket.emit("SubscribeAuction", item?.id);
 
     return () => {
-      socket.emit("UnsubscribeAuction", item?.id);
+      socket.off("AuctionEvent");
     };
-  }, [item?.id]);
+  }, [queryClient, user?.id]);
+
+  useEffect(() => {
+    isAuction && !!auction?.id && socket.emit("SubscribeAuction", auction?.id);
+
+    return () => {
+      isAuction &&
+        !!auction?.id &&
+        socket.emit("UnsubscribeAuction", auction?.id);
+    };
+  }, [isAuction, auction?.id]);
 
   return (
     <View className="flex-1 bg-permuta-background">
@@ -96,7 +142,7 @@ export default function ItemDetails() {
                     {isAuction ? "Current Bid" : "Price"}
                   </Text>
                   <Text className="text-2xl text-permuta-text">
-                    ₵{item?.price.toFixed(2)}
+                    {isAuction ? currentBid?.amount ?? "--" : `₵${item.price}`}
                   </Text>
                 </View>
               </View>
@@ -110,7 +156,7 @@ export default function ItemDetails() {
                   <Text className="text-2xl text-permuta-text">
                     {FormatcountDownDuration(
                       new Date(),
-                      new Date(item?.auctions.end_time!)
+                      new Date(auction?.end_time!)
                     )}
                   </Text>
                 </View>
@@ -118,7 +164,19 @@ export default function ItemDetails() {
                   <Text className="text-ellipsis leading-4 text-slate-500">
                     Your Bid
                   </Text>
-                  <Text className="text-2xl text-permuta-text">--</Text>
+                  <Text
+                    className={classNames(
+                      "text-2xl text-permuta-text",
+                      YourBid &&
+                        YourBid?.amount !== currentBid?.amount &&
+                        "text-red-500",
+                      YourBid &&
+                        YourBid?.amount === currentBid?.amount &&
+                        "text-green-500"
+                    )}
+                  >
+                    {YourBid?.amount ?? "--"}
+                  </Text>
                 </View>
               </View>
             )}
@@ -142,18 +200,25 @@ export default function ItemDetails() {
           <View style={{ marginBottom: insets.bottom }} className="p-4">
             {isAuction && (
               <NumberInput
-                minValue={item?.auctions.starting_price! + 5}
+                minValue={auction?.starting_price! + 5}
                 value={currentUserBid}
                 onChange={setCurrentUserBid}
               />
             )}
             <FillButton
               onPress={() => {
-                if (isAuction) {
-                  return router.push(`/item/${id}/place-bid-modal`);
-                } else {
-                  return router.push(`/item/${id}/ask-to-buy`);
-                }
+                const data: IBidCreate = {
+                  auction_id: auction?.id!,
+                  amount: currentUserBid,
+                  bidder_id: user?.id!,
+                };
+                socket.emit("UserBid", data);
+
+                // if (isAuction) {
+                //   return router.push(`/item/${id}/place-bid-modal`);
+                // } else {
+                //   return router.push(`/item/${id}/ask-to-buy`);
+                // }
               }}
               label={isAuction ? "Place Bid" : "Ask To Buy"}
             />

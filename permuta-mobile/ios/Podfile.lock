@@ -30,7 +30,7 @@ PODS:
     - ExpoModulesCore
   - ExpoSystemUI (2.4.0):
     - ExpoModulesCore
-  - EXSplashScreen (0.20.4):
+  - EXSplashScreen (0.20.5):
     - ExpoModulesCore
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -712,7 +712,7 @@ SPEC CHECKSUMS:
   ExpoModulesCore: f8f3cac222bb0f574c77664d7e05817eaa97434b
   ExpoSecureStore: 57db3b6da8b59046e2057e95bf7738a8027b47c3
   ExpoSystemUI: fa4854e3226e87f86d3383570264c6e4e90bc782
-  EXSplashScreen: 89586b0961acd173b04713b7457949b063a659da
+  EXSplashScreen: c0e7f2d4a640f3b875808ed0b88575538daf6d82
   FBLazyVector: 4cce221dd782d3ff7c4172167bba09d58af67ccb
   FBReactNativeSpec: c6bd9e179757b3c0ecf815864fae8032377903ef
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9

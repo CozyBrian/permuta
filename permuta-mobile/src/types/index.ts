@@ -120,3 +120,27 @@ export type IAuctionCreate = {
   end_time: Date;
   status?: "OPEN" | "CLOSE" | undefined;
 };
+
+export type IBid = {
+  id: string;
+  auction_id: string;
+  bidder_id: string;
+  amount: number;
+  created_at: Date;
+};
+
+export type IBidCreate = {
+  auction_id: string;
+  bidder_id: string;
+  amount: number;
+};
+
+export type IAuctionEvent =
+  | {
+      type: "error";
+      message: string;
+    }
+  | {
+      type: "bid";
+      bid: IBid;
+    };

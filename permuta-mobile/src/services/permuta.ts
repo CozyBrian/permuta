@@ -2,6 +2,7 @@ import useAxiosAuth from "@/hooks/useAxiosAuth";
 import axios from "@/lib/axios";
 import {
   IAuthResponse,
+  IBid,
   ICategory,
   IGetAllHostelsResponse,
   IGetAllItemsResponse,
@@ -77,11 +78,23 @@ export const usePermuta = () => {
     },
   };
 
+  const bids = {
+    getLatestAuctionBid: async (auction_id: string) => {
+      const { data } = await authAxios.get<IBid>(`/v1/bids/${auction_id}`);
+      return data;
+    },
+    getUserLatestAuctionBid: async (auction_id: string) => {
+      const { data } = await authAxios.get<IBid>(`/v1/bids/${auction_id}/me`);
+      return data;
+    },
+  };
+
   return {
     items,
     category,
     hostels,
     auth,
+    bids,
   };
 };
 
