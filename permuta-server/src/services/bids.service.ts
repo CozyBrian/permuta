@@ -11,7 +11,7 @@ export const createBid = async (bid: IBidCreate) => {
   });
 };
 
-export const getLatestBid = async (auction_id: string) => {
+export const getLatestAuctionBid = async (auction_id: string) => {
   return await Prisma.bids.findFirst({
     where: {
       auction_id,
@@ -39,7 +39,7 @@ export const getUserHighestBid = async (
 
 export const createBidWithSocket = async (bid: IBidCreate) => {
   try {
-    const latestBid = await getLatestBid(bid.auction_id);
+    const latestBid = await getLatestAuctionBid(bid.auction_id);
     if (latestBid && latestBid.amount >= bid.amount) {
       throw new Error("Bid amount is lower than current bid");
     }

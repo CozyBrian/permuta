@@ -6,6 +6,7 @@ import itemsRouter from "./items.route";
 import HostelsRouter from "./hostels.route";
 import CategoryRouter from "./category.route";
 import AuctionsRouter from "./auctions.route";
+import BidsRouter from "./bids.route";
 
 const v1_api = express.Router();
 
@@ -14,6 +15,7 @@ v1_api.use("/hostels", HostelsRouter);
 v1_api.use("/users", deserializeUser, usersRouter);
 v1_api.use("/items", deserializeUser, itemsRouter);
 v1_api.use("/auctions", deserializeUser, AuctionsRouter);
+v1_api.use("/bids", deserializeUser, BidsRouter);
 v1_api.use("/categories", deserializeUser, CategoryRouter);
 
 export default v1_api;

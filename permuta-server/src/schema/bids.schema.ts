@@ -14,3 +14,7 @@ export const bidsCreateSchema = bidsSchema.omit({
   id: true,
   created_at: true,
 });
+
+export const getBidsParamsSchema = z.object({
+  id: z.string().uuid(),
+});

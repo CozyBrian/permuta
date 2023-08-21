@@ -9,7 +9,7 @@ interface IUserPayload {
 declare global {
   namespace Express {
     interface Request {
-      user?: IUserPayload;
+      user: IUserPayload;
     }
   }
 }
