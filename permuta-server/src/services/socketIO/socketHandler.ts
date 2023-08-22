@@ -30,6 +30,10 @@ export default async function SocketHandler(
       type: "bid",
       bid: newBid,
     });
+    socket.emit("AuctionEvent", {
+      type: "bid",
+      bid: newBid,
+    });
   });
 
   socket.on("disconnect", () => {
