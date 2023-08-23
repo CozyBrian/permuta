@@ -61,6 +61,7 @@ export const getItemsQuerySchema = z.object({
   category_id: z.string().uuid().optional(),
   condition: z.nativeEnum(condition_enum).optional(),
   search: z.string().optional(),
+  auctionOpen: z.string().optional(),
 });
 
 export const getItemsParamsSchema = z.object({

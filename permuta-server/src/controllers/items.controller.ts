@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { IItemCreate, IItemParams, IItemQuery, IItemUpdate } from "../types";
+import {
+  IItemCreate,
+  IItemParams,
+  IItemQuery,
+  IItemUpdate,
+  IauctionFilter,
+} from "../types";
 import {
   getItemsParamsSchema,
   getItemsQuerySchema,
@@ -30,19 +36,45 @@ export const getAllItems = async (
   const query = req.query;
 
   try {
-    const { limit, page, user_id, auctions, category_id, condition, search } =
-      await getItemsQuerySchema.parseAsync(query);
+    const {
+      limit,
+      page,
+      user_id,
+      auctions,
+      category_id,
+      condition,
+      search,
+      auctionOpen,
+    } = await getItemsQuerySchema.parseAsync(query);
 
-    const auctionFilter = () =>
-      auctions
-        ? JSON.parse(`${auctions}`)
-          ? {
-              isNot: null,
+    const auctionFilter = (): IauctionFilter => {
+      if (auctions) {
+        const parsedAuctions: boolean | undefined = JSON.parse(`${auctions}`);
+        if (parsedAuctions) {
+          if (auctionOpen) {
+            const parsedAuctionOpen: boolean | undefined = JSON.parse(
+              `${auctionOpen}`,
+            );
+            if (parsedAuctionOpen) {
+              return {
+                end_time: {
+                  gt: new Date(),
+                },
+              };
             }
-          : {
-              is: null,
-            }
-        : undefined;
+          }
+          return {
+            isNot: null,
+          };
+        } else {
+          return {
+            is: null,
+          };
+        }
+      } else {
+        return undefined;
+      }
+    };
 
     const items = await getManyItems(
       {
@@ -79,6 +111,7 @@ export const getAllItems = async (
     if (error instanceof ZodError) {
       return res.status(400).send(error);
     }
+    console.log(error);
     return res.status(500).send({ error });
   }
 };

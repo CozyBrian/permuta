@@ -26,6 +26,7 @@ import {
   getAuctionParamsSchema,
 } from "../schema/auctions.schema";
 import { bidsCreateSchema, bidsSchema } from "../schema/bids.schema";
+import { Prisma } from "@prisma/client";
 
 export type IUser = z.infer<typeof userSchema>;
 export type IUserCreate = z.infer<typeof userCreateSchema>;
@@ -51,3 +52,17 @@ export type IAuctionParams = z.infer<typeof getAuctionParamsSchema>;
 
 export type IBid = z.infer<typeof bidsSchema>;
 export type IBidCreate = z.infer<typeof bidsCreateSchema>;
+
+export type IauctionFilter =
+  | (Prisma.Without<
+      Prisma.AuctionsNullableRelationFilter,
+      Prisma.auctionsWhereInput
+    > &
+      Prisma.auctionsWhereInput)
+  | (Prisma.Without<
+      Prisma.auctionsWhereInput,
+      Prisma.AuctionsNullableRelationFilter
+    > &
+      Prisma.AuctionsNullableRelationFilter)
+  | null
+  | undefined;
