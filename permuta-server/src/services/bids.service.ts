@@ -1,4 +1,5 @@
 import { IBidCreate } from "../types";
+import { GetAuctionDetails } from "./auctions.service";
 import Prisma from "./prisma";
 
 export const createBid = async (bid: IBidCreate) => {
@@ -39,6 +40,17 @@ export const getUserHighestBid = async (
 
 export const createBidWithSocket = async (bid: IBidCreate) => {
   try {
+    const auction = await GetAuctionDetails(bid.auction_id);
+    const now = new Date();
+
+    if (!auction) {
+      throw new Error("Auction not found");
+    }
+
+    if (new Date(auction.end_time) < now) {
+      throw new Error("Auction has ended");
+    }
+
     const latestBid = await getLatestAuctionBid(bid.auction_id);
     if (latestBid && latestBid.amount >= bid.amount) {
       throw new Error("Bid amount is lower than current bid");

@@ -4,7 +4,8 @@ require("module-alias/register");
 
 import http from "http";
 import app from "./app";
-import { SocketHandler, getSocketIO } from "./services/socketIO";
+import { SocketHandler } from "./services/socketIO";
+import { getSocketIO } from "./lib/socketIO";
 
 const PORT = process.env.PORT || 3001;
 
