@@ -6,14 +6,11 @@ import { createBidWithSocket } from "../bids.service";
 export default async function SocketHandler(
   socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
 ) {
-  console.log("Socket connected");
   socket.on("SubscribeAuction", (auctionID) => {
     socket.join(auctionID);
-    console.log(`User ${socket.id} joined room ${auctionID}`);
   });
   socket.on("UnsubscribeAuction", (auctionID) => {
     socket.leave(auctionID);
-    console.log(`User ${socket.id} left room ${auctionID}`);
   });
 
   socket.on("UserBid", async (Bid: IBidCreate) => {
@@ -34,9 +31,5 @@ export default async function SocketHandler(
       type: "bid",
       bid: newBid,
     });
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Socket disconnected");
   });
 }

@@ -31,13 +31,6 @@ export default function ItemDetails() {
   const { data, isLoading } = useQuery({
     queryKey: ["items", id],
     queryFn: () => items.getItemDetails(id),
-    onSuccess(data) {
-      if (data.data.auctions !== null) {
-        setCurrentUserBid(data.data.auctions.starting_price + 5);
-      } else {
-        setCurrentUserBid(data.data.price);
-      }
-    },
   });
 
   const item = data?.data;
@@ -52,6 +45,10 @@ export default function ItemDetails() {
     onSuccess(data) {
       if (data) {
         setCurrentBid(data);
+        setCurrentUserBid(data.amount + 5);
+      } else {
+        setCurrentBid(null);
+        setCurrentUserBid(auction?.starting_price!);
       }
     },
   });
@@ -95,6 +92,34 @@ export default function ItemDetails() {
         socket.emit("UnsubscribeAuction", auction?.id);
     };
   }, [isAuction, auction?.id]);
+
+  const onSubmitBid = () => {
+    const bidData: IBidCreate = {
+      auction_id: auction?.id!,
+      amount: currentUserBid,
+      bidder_id: user?.id!,
+    };
+
+    if (currentUserBid < currentBid?.amount! + 5) {
+      return Alert.alert(
+        "Invalid Bid",
+        `Bid must be at least ${currentBid?.amount! + 5}`
+      );
+    }
+
+    return Alert.alert(
+      "Confirm Bid?",
+      `Place bid of ${bidData.amount} for ${item?.name}?`,
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => socket.emit("UserBid", bidData) },
+      ]
+    );
+  };
 
   return (
     <View className="flex-1 bg-permuta-background">
@@ -207,18 +232,11 @@ export default function ItemDetails() {
             )}
             <FillButton
               onPress={() => {
-                const data: IBidCreate = {
-                  auction_id: auction?.id!,
-                  amount: currentUserBid,
-                  bidder_id: user?.id!,
-                };
-                socket.emit("UserBid", data);
-
-                // if (isAuction) {
-                //   return router.push(`/item/${id}/place-bid-modal`);
-                // } else {
-                //   return router.push(`/item/${id}/ask-to-buy`);
-                // }
+                if (isAuction) {
+                  return onSubmitBid();
+                } else {
+                  return router.push(`/item/${id}/ask-to-buy`);
+                }
               }}
               label={isAuction ? "Place Bid" : "Ask To Buy"}
             />
