@@ -24,6 +24,8 @@ export const usePermuta = () => {
       page?: string | number;
       category_id?: string;
       auctions?: boolean;
+      user_id?: string;
+      auctionOpen?: boolean;
     }) => {
       const query = ObjectToQueryParams(params);
       return authAxios.get<IGetAllItemsResponse>(`/v1/items?${query}`);

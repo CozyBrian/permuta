@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AxiosError } from "axios";
 import { FlashList } from "@shopify/flash-list";
 import SearchItemCard from "../items/SearchItemCard";
+import { useAppSelector } from "@/hooks";
 
 const ProfileTabs = [
   { id: "items", title: "Items" },
@@ -15,6 +16,7 @@ const ProfileTabs = [
 
 const ProfileItems = () => {
   const [selectedTab, setSelectedTab] = useState(ProfileTabs[0].id);
+  const { user } = useAppSelector((state) => state.auth);
   const insets = useSafeAreaInsets();
   const { items } = usePermuta();
 
@@ -24,6 +26,7 @@ const ProfileItems = () => {
       items.getAllItems({
         page: pageParam === false ? undefined : pageParam,
         auctions: selectedTab === "auctions",
+        user_id: user?.id,
       }),
     retry(failureCount, error) {
       if ((error as AxiosError).status === 404) return false;

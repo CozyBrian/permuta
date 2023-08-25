@@ -72,6 +72,18 @@ export const getAllItems = async (
           };
         }
       } else {
+        if (auctionOpen) {
+          const parsedAuctionOpen: boolean | undefined = JSON.parse(
+            `${auctionOpen}`,
+          );
+          if (parsedAuctionOpen) {
+            return {
+              end_time: {
+                gt: new Date(),
+              },
+            };
+          }
+        }
         return undefined;
       }
     };
